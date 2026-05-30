@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOME 180 — N.1 | 15 maggio 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=DM+Serif+Display&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --dome-dark: #0a0a1a;
+    --dome-blue: #1a1a3e;
+    --dome-accent: #ff4d4d;
+    --dome-gold: #fbbf24;
+    --dome-green: #10b981;
+    --dome-cyan: #06b6d4;
+    --dome-white: #f8f8f8;
+    --dome-gray: #94a3b8;
+  }
+  body { font-family: Inter, system-ui, sans-serif; background: var(--dome-dark); color: var(--dome-white); min-height: 100vh; overflow-x: hidden; }
+  .screen { display: none; max-width: 420px; margin: 0 auto; min-height: 100vh; padding: 0; position: relative; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ===== SPLASH ===== */
+  #splash { justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: radial-gradient(ellipse at 50% 30%, #1a1a4e 0%, var(--dome-dark) 70%); }
+  .splash-logo { font-family: 'DM Serif Display', serif; font-size: 52px; letter-spacing: -2px; margin-bottom: 4px; }
+  .splash-logo span { color: var(--dome-accent); }
+  .splash-sub { font-size: 13px; color: var(--dome-gray); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; }
+
+  .splash-chi { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px 18px; margin-bottom: 20px; text-align: left; }
+  .splash-chi .chi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--dome-gold); margin-bottom: 8px; font-weight: 700; }
+  .splash-chi p { font-size: 13px; color: var(--dome-gray); line-height: 1.7; }
+  .splash-chi p strong { color: var(--dome-white); }
+
+  .splash-concept { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px 20px; margin-bottom: 28px; text-align: left; }
+  .splash-concept h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--dome-gold); margin-bottom: 12px; }
+  .time-blocks { display: flex; gap: 8px; margin-bottom: 16px; }
+  .time-block { flex: 1; background: rgba(255,255,255,0.05); border-radius: 10px; padding: 12px 8px; text-align: center; }
+  .time-block .seconds { font-size: 28px; font-weight: 900; line-height: 1; }
+  .time-block:first-child .seconds { color: var(--dome-cyan); }
+  .time-block:last-child .seconds { color: var(--dome-gold); }
+  .time-block .label { font-size: 10px; color: var(--dome-gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .time-plus { display: flex; align-items: center; font-size: 20px; font-weight: 800; color: var(--dome-accent); }
+  .splash-tagline { font-size: 12px; color: var(--dome-gray); line-height: 1.6; }
+  .splash-tagline strong { color: var(--dome-white); }
+  .btn-start { background: var(--dome-accent); color: #fff; border: none; padding: 16px 48px; border-radius: 50px; font-family: Inter, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 1px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 24px rgba(255,77,77,0.3); }
+  .btn-start:hover { transform: scale(1.05); box-shadow: 0 6px 32px rgba(255,77,77,0.5); }
+  .splash-footer { margin-top: 24px; font-size: 11px; color: rgba(255,255,255,0.25); }
+
+  /* ===== DIGEST ===== */
+  #digest { background: var(--dome-dark); }
+  .digest-header { background: var(--dome-blue); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+  .digest-brand { font-family: 'DM Serif Display', serif; font-size: 20px; }
+  .digest-brand span { color: var(--dome-accent); }
+  .timer-container { display: flex; align-items: center; gap: 8px; }
+  .timer-ring { width: 36px; height: 36px; position: relative; }
+  .timer-ring svg { transform: rotate(-90deg); width: 36px; height: 36px; }
+  .timer-ring .bg { stroke: rgba(255,255,255,0.1); }
+  .timer-ring .progress { stroke: var(--dome-cyan); transition: stroke-dashoffset 1s linear; }
+  .timer-ring.warning .progress { stroke: var(--dome-gold); }
+  .timer-ring.critical .progress { stroke: var(--dome-accent); }
+  .timer-text { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .timer-paused { font-size: 9px; color: var(--dome-gold); text-transform: uppercase; letter-spacing: 1px; }
+
+  .digest-scroll { flex: 1; overflow-y: auto; padding: 16px 20px 100px; -webkit-overflow-scrolling: touch; }
+  .digest-date { font-size: 11px; color: var(--dome-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .digest-section { margin-bottom: 20px; }
+  .digest-section-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; padding: 6px 10px; border-radius: 4px; margin-bottom: 10px; display: inline-block; }
+  .section-scienza { background: rgba(6,182,212,0.15); color: var(--dome-cyan); }
+  .section-bandi { background: rgba(251,191,36,0.15); color: var(--dome-gold); }
+  .section-normativa { background: rgba(16,185,129,0.15); color: var(--dome-green); }
+  .section-mondo { background: rgba(255,77,77,0.15); color: var(--dome-accent); }
+  .section-pillole { background: rgba(168,85,247,0.15); color: #a855f7; }
+
+  .news-card { background: rgba(255,255,255,0.04); border-left: 3px solid var(--dome-cyan); border-radius: 0 8px 8px 0; padding: 12px 14px; margin-bottom: 8px; }
+  .news-card.bando { border-left-color: var(--dome-gold); }
+  .news-card.normativa { border-left-color: var(--dome-green); }
+  .news-card.mondo { border-left-color: var(--dome-accent); }
+  .news-card.pillola { border-left-color: #a855f7; }
+  .news-card h4 { font-size: 13px; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
+  .news-card p { font-size: 12px; color: var(--dome-gray); line-height: 1.5; }
+  .news-card .fonte { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+  .news-card .fonte a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  .news-card .fonte a:hover { text-decoration: underline; }
+  .bando-values { display: flex; gap: 12px; margin-top: 6px; }
+  .bando-val { font-size: 11px; font-weight: 700; }
+  .bando-val.euro { color: var(--dome-green); }
+  .bando-val.scad { color: var(--dome-accent); }
+
+  .world-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .world-row:last-child { border-bottom: none; }
+  .world-flag { font-size: 20px; min-width: 28px; }
+  .world-info { flex: 1; }
+  .world-info .testata { font-size: 10px; color: var(--dome-gray); }
+  .world-info .titolo { font-size: 12px; font-weight: 600; line-height: 1.4; margin-top: 2px; }
+  .world-info .fonte { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 2px; }
+
+  .digest-progress-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; height: 56px; background: linear-gradient(to top, var(--dome-dark) 60%, transparent); display: flex; align-items: flex-end; padding: 0 20px 12px; z-index: 20; }
+  .progress-track { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--dome-cyan); border-radius: 2px; transition: width 1s linear; }
+  .progress-label { font-size: 10px; color: var(--dome-gray); margin-left: 10px; min-width: 36px; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .cta-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,10,26,0.92); z-index: 50; justify-content: center; align-items: center; }
+  .cta-overlay.active { display: flex; }
+  .cta-box { max-width: 360px; text-align: center; padding: 32px 24px; }
+  .cta-box .emoji { font-size: 48px; margin-bottom: 16px; }
+  .cta-box h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .cta-box p { font-size: 14px; color: var(--dome-gray); margin-bottom: 24px; line-height: 1.6; }
+  .btn-game { background: var(--dome-gold); color: var(--dome-dark); border: none; padding: 16px 40px; border-radius: 50px; font-family: Inter, sans-serif; font-size: 15px; font-weight: 800; cursor: pointer; letter-spacing: 0.5px; transition: transform 0.2s; box-shadow: 0 4px 24px rgba(251,191,36,0.3); }
+  .btn-game:hover { transform: scale(1.05); }
+  .cta-skip { display: block; margin-top: 16px; font-size: 12px; color: var(--dome-gray); cursor: pointer; background: none; border: none; font-family: Inter, sans-serif; text-decoration: underline; }
+
+  /* ===== GAME ===== */
+  #game { background: radial-gradient(ellipse at 50% 0%, #1a1a4e 0%, var(--dome-dark) 60%); }
+  .game-header { padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); }
+  .game-title { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+  .game-score-display { display: flex; align-items: center; gap: 8px; }
+  .game-streak { font-size: 12px; color: var(--dome-gold); font-weight: 700; }
+  .game-body { flex: 1; padding: 20px; display: flex; flex-direction: column; }
+  .q-counter { text-align: center; font-size: 11px; color: var(--dome-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+  .q-counter span { color: var(--dome-accent); font-weight: 700; }
+  .question-card { background: rgba(255,255,255,0.06); border-radius: 16px; padding: 20px; margin-bottom: 16px; text-align: center; }
+  .question-category { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; font-weight: 700; }
+  .cat-scienza { color: var(--dome-cyan); }
+  .cat-bandi { color: var(--dome-gold); }
+  .cat-normativa { color: var(--dome-green); }
+  .cat-mondo { color: var(--dome-accent); }
+  .question-text { font-size: 17px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; }
+  .question-context { font-size: 12px; color: var(--dome-gray); font-style: italic; }
+  .answers { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .answer-btn { background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 16px; color: var(--dome-white); font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+  .answer-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+  .answer-btn .letter { min-width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+  .answer-btn.correct { background: rgba(16,185,129,0.15); border-color: var(--dome-green); }
+  .answer-btn.correct .letter { background: var(--dome-green); color: var(--dome-dark); }
+  .answer-btn.wrong { background: rgba(255,77,77,0.1); border-color: var(--dome-accent); opacity: 0.6; }
+  .answer-btn.disabled { pointer-events: none; }
+  .feedback-box { display: none; background: rgba(255,255,255,0.06); border-radius: 12px; padding: 14px 16px; margin-top: 12px; font-size: 12px; line-height: 1.6; color: var(--dome-gray); }
+  .feedback-box.active { display: block; }
+  .feedback-box .insight { color: var(--dome-gold); font-weight: 700; }
+  .feedback-box .fonte { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 6px; display: block; }
+  .btn-next { background: var(--dome-accent); color: #fff; border: none; padding: 14px; border-radius: 12px; font-family: Inter, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 12px; display: none; transition: transform 0.2s; }
+  .btn-next:hover { transform: scale(1.02); }
+  .btn-next.active { display: block; }
+
+  /* ===== RESULTS ===== */
+  #results { justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: radial-gradient(ellipse at 50% 30%, #1a1a4e 0%, var(--dome-dark) 70%); }
+  .results-score { font-size: 64px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+  .results-label { font-size: 13px; color: var(--dome-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; }
+  .results-archetype { margin-bottom: 24px; }
+  .results-archetype h3 { font-size: 18px; font-weight: 800; color: var(--dome-gold); margin-bottom: 4px; }
+  .results-archetype p { font-size: 13px; color: var(--dome-gray); line-height: 1.5; }
+  .results-breakdown { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 24px; width: 100%; max-width: 340px; }
+  .results-breakdown h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--dome-gray); margin-bottom: 12px; }
+  .result-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .cat { font-size: 12px; font-weight: 600; }
+  .result-row .score { font-size: 14px; font-weight: 800; }
+
+  .share-row { display: flex; gap: 10px; margin: 16px 0; justify-content: center; }
+  .share-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 10px 20px; border-radius: 50px; font-family: Inter, sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .share-btn:hover { background: rgba(255,255,255,0.2); }
+
+  .btn-restart { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 14px 36px; border-radius: 50px; font-family: Inter, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+  .results-cta-sub { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .results-cta-sub p { font-size: 12px; color: var(--dome-gray); margin-bottom: 12px; }
+  .btn-subscribe { background: var(--dome-accent); color: #fff; border: none; padding: 12px 32px; border-radius: 50px; font-family: Inter, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  .fade-in { animation: fadeIn 0.3s ease-out; }
+  @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .slide-up { animation: slideUp 0.4s ease-out; }
+  @media (max-width: 440px) { .screen { max-width: 100%; } .splash-logo { font-size: 40px; } .question-text { font-size: 15px; } }
+</style>
+</head>
+<body>
+
+<!-- ====== SPLASH ====== -->
+<div id="splash" class="screen active">
+  <div class="splash-logo">DOME<span>180</span></div>
+  <div class="splash-sub">Sapere in 3 minuti</div>
+
+  <div class="splash-chi">
+    <div class="chi-label">Chi scrive</div>
+    <p>Sono <strong>Dome</strong>, un curioso che parla ad altri curiosi. Non sono un giornalista, non vendo nulla. Faccio il caregiver e questo progetto mi tiene agganciato al mondo. Seleziono notizie che mi stupiscono e le condivido con te. Ogni fonte e verificata e linkata.</p>
+  </div>
+
+  <div class="splash-concept">
+    <h3>Il format</h3>
+    <div class="time-blocks">
+      <div class="time-block"><div class="seconds">90"</div><div class="label">Leggi</div></div>
+      <div class="time-plus">+</div>
+      <div class="time-block"><div class="seconds">90"</div><div class="label">Gioca</div></div>
+    </div>
+    <div class="splash-tagline">
+      <strong>90 secondi</strong> per i fatti che contano.<br>
+      <strong>90 secondi</strong> per metterti alla prova.<br>
+      Impari senza accorgertene. Ogni 15 giorni.
+    </div>
+  </div>
+
+  <button class="btn-start" onclick="startDigest()">INIZIA</button>
+  <div class="splash-footer">N.1 — 15 maggio 2026 — Periodo 1-15 mag</div>
+</div>
+
+<!-- ====== DIGEST (90 sec) ====== -->
+<div id="digest" class="screen">
+  <div class="digest-header">
+    <div class="digest-brand">DOME<span>180</span></div>
+    <div class="timer-container">
+      <div class="timer-ring" id="digestTimerRing">
+        <svg viewBox="0 0 36 36">
+          <circle class="bg" cx="18" cy="18" r="16" fill="none" stroke-width="2"/>
+          <circle class="progress" id="digestCircle" cx="18" cy="18" r="16" fill="none" stroke-width="2" stroke-dasharray="100.53" stroke-dashoffset="0" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="timer-text" id="digestTimer">1:30</span>
+      <span class="timer-paused" id="digestPaused" style="display:none">PAUSA</span>
+    </div>
+  </div>
+
+  <div class="digest-scroll">
+    <div class="digest-date">1 — 15 maggio 2026 &nbsp;&bull;&nbsp; N.1</div>
+
+    <!-- SCIENZA -->
+    <div class="digest-section">
+      <div class="digest-section-title section-scienza">&#129514; Scoperte</div>
+      <div class="news-card fade-in">
+        <h4>TIGEM Pozzuoli — Terapia genica per la Sindrome di Usher tipo 1B</h4>
+        <p>Primi dati su 15 pazienti trattati con doppio vettore genico oculare: profilo di sicurezza incoraggiante e primi segnali di efficacia. Prima applicazione umana di due vettori AAV combinati.</p>
+        <div class="fonte">Fonte: <a href="https://www.fondazionetelethon.it/storie-e-news/news/dalla-ricerca/sindrome-di-usher-primi-dati-promettenti-da-nuova-terapia-genica-sviluppata-al-tigem/" target="_blank">Fondazione Telethon</a></div>
+      </div>
+      <div class="news-card fade-in">
+        <h4>New Time / PEROVSKIN — Perovskite dal laboratorio alla produzione industriale</h4>
+        <p>Progetto italiano in fase operativa: celle tandem silicio-perovskite oltre il 30% di efficienza. Giacimenti di perovskite nel Lazio e in Campania.</p>
+        <div class="fonte">Fonte: <a href="https://www.ansa.it/sito/notizie/economia/2026/04/02/new-time-accelera-sullimpiego-della-perovskite-nel-fotovoltaico_150811ed-b3d1-42cf-a0f5-138ec58ca160.html" target="_blank">ANSA, 2 aprile 2026</a></div>
+      </div>
+    </div>
+
+    <!-- BANDI -->
+    <div class="digest-section">
+      <div class="digest-section-title section-bandi">&#127466;&#127482; Bandi UE</div>
+      <div class="news-card bando fade-in">
+        <h4>Horizon Europe — Cluster 1 Health (18 topic)</h4>
+        <p>Terapie avanzate, impatto climatico sulla salute, salute mentale digitale.</p>
+        <div class="bando-values">
+          <span class="bando-val euro">&#8364; 471,6 mln</span>
+          <span class="bando-val scad">Chiuso 16 apr 2026</span>
+        </div>
+        <div class="fonte">Fonte: <a href="https://promisalute.it/horizon-europe-bandi-2026-area-salute/" target="_blank">ProMIS</a></div>
+      </div>
+      <div class="news-card bando fade-in">
+        <h4>EIC Accelerator 2026 — Clean Energy + Open</h4>
+        <p>PMI deep-tech: materiali per rinnovabili e accumulo. Budget record, 6 scadenze/anno.</p>
+        <div class="bando-values">
+          <span class="bando-val euro">&#8364; 634 mln (50 mln energy)</span>
+          <span class="bando-val scad">Prossima: 8 lug 2026</span>
+        </div>
+        <div class="fonte">Fonte: <a href="https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator/eic-accelerator-challenges-2026_en" target="_blank">eic.ec.europa.eu</a></div>
+      </div>
+    </div>
+
+    <!-- NORMATIVA -->
+    <div class="digest-section">
+      <div class="digest-section-title section-normativa">&#9878; Normativa</div>
+      <div class="news-card normativa fade-in">
+        <h4>UE — EHDS: Spazio Europeo Dati Sanitari in vigore</h4>
+        <p>In vigore dal 26 marzo 2025. Da marzo 2029 obbligo scambio transfrontaliero cartelle cliniche tra Stati membri.</p>
+        <div class="fonte">Fonte: <a href="https://www.agendadigitale.eu/sanita/dati-sanitari-e-ia-come-lehds-ridisegna-lo-scenario-europeo/" target="_blank">Agenda Digitale</a></div>
+      </div>
+      <div class="news-card normativa fade-in">
+        <h4>Italia — Decreto fiscale 2026 in vigore dal 28 marzo</h4>
+        <p>IRES premiale 20% (solo 2025). Correttivo IRPEF-IRES: nuove regole IVA, proroga Tax Control Framework al 30/9.</p>
+        <div class="fonte">Fonte: <a href="https://www.dequo.it/articoli/decreto-fiscale-2026" target="_blank">Dequo</a></div>
+      </div>
+    </div>
+
+    <!-- MONDO -->
+    <div class="digest-section">
+      <div class="digest-section-title section-mondo">&#127758; Dal Mondo</div>
+      <div class="world-row">
+        <span class="world-flag">&#127465;&#127466;</span>
+        <div class="world-info">
+          <span class="testata">Handelsblatt</span>
+          <div class="titolo">PIL +0,3% Q1. Industria -2,1%. Bund al 3,06%, massimi dal 2011</div>
+          <div class="fonte"><a href="https://www.progetto-radici.it/2026/05/13/germania-crisi-industriale-riarmo-italiani-europa-2026/" target="_blank">Progetto Radici, 13 mag</a></div>
+        </div>
+      </div>
+      <div class="world-row">
+        <span class="world-flag">&#127472;&#127479;</span>
+        <div class="world-info">
+          <span class="testata">Korea Economic Daily</span>
+          <div class="titolo">Export +43,7% a inizio maggio sui chip. Samsung lancia HBM4 per AI</div>
+          <div class="fonte"><a href="https://nai500.com/blog/2026/05/korea-s-75-surge-runs-on-chips-reform-and-retail/" target="_blank">NAI 500, mag 2026</a></div>
+        </div>
+      </div>
+      <div class="world-row">
+        <span class="world-flag">&#127463;&#127479;</span>
+        <div class="world-info">
+          <span class="testata">Agencia Brasil</span>
+          <div class="titolo">Selic tagliata a 14,5%. Inflazione attesa 4,86%, sopra il tetto</div>
+          <div class="fonte"><a href="https://agenciabrasil.ebc.com.br/economia/noticia/2026-05/mercado-eleva-previsao-da-inflacao-para-491-este-ano" target="_blank">Agencia Brasil, mag</a></div>
+        </div>
+      </div>
+      <div class="world-row">
+        <span class="world-flag">&#127487;&#127462;</span>
+        <div class="world-info">
+          <span class="testata">Business Day</span>
+          <div class="titolo">Benzina +R3,27/l, record. Ma surplus commerciale Q1 triplica a R77 mld</div>
+          <div class="fonte"><a href="https://www.bloomberg.com/news/articles/2026-05-15/morgan-stanley-upbeat-on-south-africa-outlook-despite-oil-shock" target="_blank">Bloomberg, 15 mag</a></div>
+        </div>
+      </div>
+      <div class="world-row">
+        <span class="world-flag">&#127462;&#127482;</span>
+        <div class="world-info">
+          <span class="testata">Australian Financial Review</span>
+          <div class="titolo">Litio a $195.000/t, max triennale. Zimbabwe vieta export concentrati</div>
+          <div class="fonte"><a href="https://tradingeconomics.com/commodity/lithium" target="_blank">Trading Economics, mag</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PILLOLE -->
+    <div class="digest-section">
+      <div class="digest-section-title section-pillole">&#128161; Pillole</div>
+      <div class="news-card pillola fade-in">
+        <h4>&#127470;&#127481; Startup IT: $430 mln in 45 round (gen-apr 2026), -33% vs 2025</h4>
+        <div class="fonte">Fonte: <a href="https://tracxn.com/d/geographies/italy/" target="_blank">Tracxn</a></div>
+      </div>
+      <div class="news-card pillola fade-in">
+        <h4>&#127909; Vincenzo Schettini (La Fisica Che Ci Piace) supera 2,3 mln iscritti YT</h4>
+        <div class="fonte">Fonte: <a href="https://tuttoyoutube.it/youtube-in-italiano-canali-top-di-scienza/" target="_blank">TuttoYouTube</a></div>
+      </div>
+      <div class="news-card pillola fade-in">
+        <h4>&#127912; Mercato arte globale: $59,6 mld (+4%). Italia: IVA arte al 5%, minima UE</h4>
+        <div class="fonte">Fonte: <a href="https://www.artribune.com/professioni-e-professionisti/2026/03/art-market-report-art-basel-ubs-2026/" target="_blank">Art Basel Report 2026</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="digest-progress-bar">
+    <div class="progress-track"><div class="progress-fill" id="digestProgressFill" style="width:0%"></div></div>
+    <span class="progress-label" id="digestProgressLabel">0%</span>
+  </div>
+
+  <div class="cta-overlay" id="ctaOverlay">
+    <div class="cta-box slide-up">
+      <div class="emoji">&#127919;</div>
+      <h2>Pronto per il quiz?</h2>
+      <p>Hai letto le notizie. Ora vediamo quanto hai assorbito.<br><strong>5 domande in 90 secondi.</strong></p>
+      <button class="btn-game" onclick="startGame()">GIOCA ORA</button>
+      <button class="cta-skip" onclick="dismissCta()">Fammi finire di leggere</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== GAME ====== -->
+<div id="game" class="screen">
+  <div class="game-header">
+    <div><div class="game-title">&#127919; Quiz</div></div>
+    <div class="game-score-display">
+      <span class="game-streak" id="gameStreak"></span>
+      <div class="timer-container">
+        <div class="timer-ring" id="gameTimerRing">
+          <svg viewBox="0 0 36 36">
+            <circle class="bg" cx="18" cy="18" r="16" fill="none" stroke-width="2"/>
+            <circle class="progress" id="gameCircle" cx="18" cy="18" r="16" fill="none" stroke-width="2" stroke-dasharray="100.53" stroke-dashoffset="0" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="timer-text" id="gameTimer">1:30</span>
+      </div>
+    </div>
+  </div>
+  <div class="game-body">
+    <div class="q-counter">Domanda <span id="qNum">1</span> di <span id="qTotal">5</span></div>
+    <div class="question-card">
+      <div class="question-category" id="qCategory"></div>
+      <div class="question-text" id="qText"></div>
+      <div class="question-context" id="qContext"></div>
+    </div>
+    <div class="answers" id="answersContainer"></div>
+    <div class="feedback-box" id="feedbackBox">
+      <span class="insight" id="feedbackInsight"></span>
+      <span id="feedbackText"></span>
+      <span class="fonte" id="feedbackSource"></span>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">PROSSIMA &#8594;</button>
+  </div>
+</div>
+
+<!-- ====== RESULTS ====== -->
+<div id="results" class="screen">
+  <div class="results-score" id="finalScore">0/5</div>
+  <div class="results-label">Il tuo punteggio</div>
+  <div class="results-archetype">
+    <h3 id="archetypeTitle"></h3>
+    <p id="archetypeDesc"></p>
+  </div>
+  <div class="results-breakdown" id="breakdown"></div>
+  <div class="share-row">
+    <button class="share-btn" onclick="shareResult('whatsapp')">&#128172; WhatsApp</button>
+    <button class="share-btn" onclick="shareResult('twitter')">&#120143; Twitter</button>
+    <button class="share-btn" onclick="shareResult('copy')">&#128203; Copia</button>
+  </div>
+  <button class="btn-restart" onclick="restart()">&#8634; Ricomincia</button>
+  <div class="results-cta-sub">
+    <p>Vuoi ricevere DOME180 ogni 15 giorni?</p>
+    <a class="btn-subscribe" href="https://substack.com/@dome180" target="_blank">Iscriviti su Substack</a>
+  </div>
+</div>
+
+<script>
+// ===== DOMANDE: COLLEGATE TRA SEZIONI (non mnemoniche) =====
+const QUESTIONS = [
+  {
+    category: "scienza", catLabel: "Scoperte Scientifiche", catClass: "cat-scienza",
+    text: "Quale limite della terapia genica ha superato il TIGEM con la Sindrome di Usher?",
+    context: "Collegamento: scoperta TIGEM + limiti tecnologici",
+    answers: [
+      { text: "Ha usato un singolo vettore piu grande del normale", correct: false },
+      { text: "Ha combinato due vettori AAV per geni troppo grandi", correct: true },
+      { text: "Ha eliminato la necessita dei vettori virali", correct: false },
+      { text: "Ha usato CRISPR al posto dei vettori AAV", correct: false }
+    ],
+    insight: "I vettori AAV hanno un limite di capacita. Il doppio vettore apre la terapia genica a decine di malattie finora escluse.",
+    source: "Fondazione Telethon"
+  },
+  {
+    category: "collegamento", catLabel: "Energia + Bandi UE", catClass: "cat-bandi",
+    text: "Il progetto PEROVSKIN lavora sulle celle perovskite. Quale bando UE potrebbe finanziarlo?",
+    context: "Collegamento tra sezione Scoperte e Bandi",
+    answers: [
+      { text: "Horizon Europe Cluster 1 Health", correct: false },
+      { text: "Smart&Start Invitalia", correct: false },
+      { text: "EIC Accelerator Clean Energy (scadenza 8 luglio)", correct: true },
+      { text: "EHDS European Health Data Space", correct: false }
+    ],
+    insight: "L'EIC ha 50 mln dedicati a materiali avanzati per rinnovabili — esattamente il campo della perovskite tandem.",
+    source: "eic.ec.europa.eu"
+  },
+  {
+    category: "normativa", catLabel: "Normativa + Ricerca", catClass: "cat-normativa",
+    text: "L'EHDS permettera lo scambio di cartelle cliniche in UE. Quando diventa obbligatorio?",
+    context: "Collegamento normativa sanitaria + impatto ricerca",
+    answers: [
+      { text: "E gia obbligatorio dal marzo 2025", correct: false },
+      { text: "Da marzo 2027", correct: false },
+      { text: "Da marzo 2029 per Patient Summary e prescrizioni", correct: true },
+      { text: "Non sara mai obbligatorio", correct: false }
+    ],
+    insight: "Per ricercatori come quelli del TIGEM, significhera accesso a dati sanitari europei per studi multicentrici su malattie rare.",
+    source: "eur-lex.europa.eu / Agenda Digitale"
+  },
+  {
+    category: "mondo", catLabel: "Economia Globale", catClass: "cat-mondo",
+    text: "Corea del Sud e Sud Africa: economie export-driven. Cosa le distingue a maggio 2026?",
+    context: "Confronto tra due modelli sotto stress geopolitico",
+    answers: [
+      { text: "Corea cresce sui chip, Sud Africa soffre il petrolio ma ha surplus record", correct: true },
+      { text: "Entrambe soffrono il calo delle materie prime", correct: false },
+      { text: "Il Sud Africa cresce piu della Corea", correct: false },
+      { text: "La Corea ha un deficit commerciale", correct: false }
+    ],
+    insight: "Corea: export +43,7% sui semiconduttori. Sud Africa: benzina a +R3,27/l ma surplus triplicato a R77 mld. Due risposte diverse allo stesso shock.",
+    source: "KED Global / Bloomberg / Business Day"
+  },
+  {
+    category: "cultura", catLabel: "Arte + Fiscalita", catClass: "cat-normativa",
+    text: "Perche l'Italia potrebbe attrarre piu collezionisti d'arte in Europa?",
+    context: "Collegamento dati Art Basel + decreto fiscale italiano",
+    answers: [
+      { text: "Ha le aste piu grandi d'Europa", correct: false },
+      { text: "Ha introdotto l'IVA al 5% sull'arte, la piu bassa in UE", correct: true },
+      { text: "Il governo finanzia direttamente i collezionisti", correct: false },
+      { text: "Il decreto 2026 elimina le tasse sull'arte", correct: false }
+    ],
+    insight: "L'IVA al 5% rende l'Italia il mercato fiscalmente piu vantaggioso in UE per l'arte. Dato dal report Art Basel & UBS 2026.",
+    source: "Art Basel & UBS Report 2026 via Artribune"
+  }
+];
+
+const ARCHETYPES = [
+  { min: 0, max: 1, title: "Curioso in Erba", desc: "Hai colto qualcosa, ma i collegamenti tra notizie ti sfuggono. Il prossimo numero aiuta!" },
+  { min: 2, max: 2, title: "Osservatore Attento", desc: "Vedi i fatti singoli. Ora prova a collegare scienza, policy e mercati." },
+  { min: 3, max: 3, title: "Analista Informato", desc: "Buona visione d'insieme. Distingui tendenze dal rumore e colleghi settori diversi." },
+  { min: 4, max: 4, title: "Stratega Globale", desc: "Colleghi scienza, normativa e mercati. Pochi leggono cosi trasversalmente." },
+  { min: 5, max: 5, title: "Mente da Davos", desc: "Impeccabile. Vedi connessioni che altri non vedono. Condividi il risultato!" }
+];
+
+let digestTimerInterval = null, gameTimerInterval = null;
+let digestTimeLeft = 90, gameTimeLeft = 90;
+let currentQuestion = 0, score = 0, streak = 0, categoryScores = {};
+let digestPaused = false;
+
+// Pausa timer quando cambi tab
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (digestTimerInterval) { clearInterval(digestTimerInterval); digestTimerInterval = null; digestPaused = true; const el = document.getElementById('digestPaused'); if(el) el.style.display = 'inline'; }
+    if (gameTimerInterval) { clearInterval(gameTimerInterval); gameTimerInterval = null; }
+  } else {
+    if (digestPaused && digestTimeLeft > 0) {
+      const el = document.getElementById('digestPaused'); if(el) el.style.display = 'none';
+      digestPaused = false;
+      digestTimerInterval = setInterval(digestTick, 1000);
+    }
+    if (gameTimeLeft > 0 && document.getElementById('game').classList.contains('active')) {
+      gameTimerInterval = setInterval(gameTick, 1000);
+    }
+  }
+});
+
+// Salva stato in localStorage
+function saveState() { try { localStorage.setItem('dome180', JSON.stringify({ score, streak, currentQuestion, categoryScores, gameTimeLeft, digestTimeLeft, screen: document.querySelector('.screen.active')?.id, ts: Date.now() })); } catch(e){} }
+
+function startDigest() { showScreen('digest'); digestTimeLeft = 90; updateDigestTimer(); digestTimerInterval = setInterval(digestTick, 1000); }
+
+function digestTick() { digestTimeLeft--; updateDigestTimer(); saveState(); if (digestTimeLeft <= 0) { clearInterval(digestTimerInterval); digestTimerInterval = null; document.getElementById('ctaOverlay').classList.add('active'); } }
+
+function updateDigestTimer() {
+  const m = Math.floor(digestTimeLeft / 60), s = digestTimeLeft % 60;
+  document.getElementById('digestTimer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  const p = (90 - digestTimeLeft) / 90;
+  document.getElementById('digestCircle').style.strokeDashoffset = p * 100.53;
+  document.getElementById('digestProgressFill').style.width = (p * 100) + '%';
+  document.getElementById('digestProgressLabel').textContent = Math.round(p * 100) + '%';
+  const r = document.getElementById('digestTimerRing'); r.className = 'timer-ring';
+  if (digestTimeLeft <= 15) r.classList.add('critical'); else if (digestTimeLeft <= 30) r.classList.add('warning');
+}
+
+function dismissCta() { document.getElementById('ctaOverlay').classList.remove('active'); }
+
+function startGame() {
+  document.getElementById('ctaOverlay').classList.remove('active');
+  showScreen('game'); currentQuestion = 0; score = 0; streak = 0; categoryScores = {}; gameTimeLeft = 90;
+  document.getElementById('qTotal').textContent = QUESTIONS.length;
+  updateGameTimer(); loadQuestion();
+  gameTimerInterval = setInterval(gameTick, 1000);
+}
+
+function gameTick() { gameTimeLeft--; updateGameTimer(); saveState(); if (gameTimeLeft <= 0) { clearInterval(gameTimerInterval); gameTimerInterval = null; showResults(); } }
+
+function updateGameTimer() {
+  const m = Math.floor(gameTimeLeft / 60), s = gameTimeLeft % 60;
+  document.getElementById('gameTimer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  const p = (90 - gameTimeLeft) / 90;
+  document.getElementById('gameCircle').style.strokeDashoffset = p * 100.53;
+  const r = document.getElementById('gameTimerRing'); r.className = 'timer-ring';
+  if (gameTimeLeft <= 15) r.classList.add('critical'); else if (gameTimeLeft <= 30) r.classList.add('warning');
+}
+
+function loadQuestion() {
+  if (currentQuestion >= QUESTIONS.length) { showResults(); return; }
+  const q = QUESTIONS[currentQuestion];
+  document.getElementById('qNum').textContent = currentQuestion + 1;
+  document.getElementById('qCategory').textContent = q.catLabel;
+  document.getElementById('qCategory').className = 'question-category ' + q.catClass;
+  document.getElementById('qText').textContent = q.text;
+  document.getElementById('qContext').textContent = q.context;
+  const c = document.getElementById('answersContainer'); c.innerHTML = '';
+  const L = ['A','B','C','D'];
+  [...q.answers].sort(() => Math.random() - 0.5).forEach((a, i) => {
+    const b = document.createElement('button'); b.className = 'answer-btn fade-in'; b.style.animationDelay = (i*0.08)+'s';
+    b.innerHTML = `<span class="letter">${L[i]}</span><span>${a.text}</span>`;
+    b.onclick = () => selectAnswer(b, a.correct, q); c.appendChild(b);
+  });
+  document.getElementById('feedbackBox').classList.remove('active');
+  document.getElementById('btnNext').classList.remove('active');
+}
+
+function selectAnswer(btn, ok, q) {
+  document.querySelectorAll('.answer-btn').forEach(b => {
+    b.classList.add('disabled');
+    const t = b.querySelector('span:last-child').textContent;
+    const m = q.answers.find(a => a.text === t);
+    if (m && m.correct) b.classList.add('correct');
+    else if (b === btn && !ok) b.classList.add('wrong');
+  });
+  if (ok) { score++; streak++; } else { streak = 0; }
+  if (!categoryScores[q.category]) categoryScores[q.category] = { correct: 0, total: 0 };
+  if (ok) categoryScores[q.category].correct++;
+  categoryScores[q.category].total++;
+  document.getElementById('gameStreak').textContent = streak > 1 ? `${streak}x combo!` : '';
+  document.getElementById('feedbackInsight').textContent = ok ? 'Esatto! ' : 'Non questa volta. ';
+  document.getElementById('feedbackText').textContent = q.insight;
+  document.getElementById('feedbackSource').textContent = 'Fonte: ' + q.source;
+  document.getElementById('feedbackBox').classList.add('active');
+  document.getElementById('btnNext').classList.add('active');
+  saveState();
+}
+
+function nextQuestion() { currentQuestion++; if (currentQuestion >= QUESTIONS.length) { clearInterval(gameTimerInterval); gameTimerInterval = null; showResults(); } else { loadQuestion(); } }
+
+function showResults() {
+  clearInterval(digestTimerInterval); clearInterval(gameTimerInterval);
+  digestTimerInterval = null; gameTimerInterval = null;
+  showScreen('results');
+  document.getElementById('finalScore').textContent = `${score}/${QUESTIONS.length}`;
+  const a = ARCHETYPES.find(x => score >= x.min && score <= x.max);
+  document.getElementById('archetypeTitle').textContent = a.title;
+  document.getElementById('archetypeDesc').textContent = a.desc;
+  const se = document.getElementById('finalScore');
+  se.style.color = score >= 4 ? 'var(--dome-green)' : score >= 3 ? 'var(--dome-cyan)' : score >= 2 ? 'var(--dome-gold)' : 'var(--dome-accent)';
+  const bd = document.getElementById('breakdown'); bd.innerHTML = '<h4>Dettaglio per area</h4>';
+  const cn = { scienza:'Scienza', collegamento:'Energia+Bandi', normativa:'Normativa', mondo:'Economia Globale', cultura:'Arte+Fiscalita' };
+  Object.entries(categoryScores).forEach(([c, d]) => { bd.innerHTML += `<div class="result-row"><span class="cat">${cn[c]||c}</span><span class="score">${d.correct}/${d.total}</span></div>`; });
+  try { localStorage.removeItem('dome180'); } catch(e){}
+}
+
+function shareResult(p) {
+  const a = ARCHETYPES.find(x => score >= x.min && score <= x.max);
+  const t = `DOME180 — ${score}/5, sono "${a.title}"! Colleghi scienza, bandi UE e mercati globali in 3 min? Prova anche tu`;
+  if (p === 'whatsapp') window.open('https://wa.me/?text=' + encodeURIComponent(t));
+  else if (p === 'twitter') window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(t));
+  else { navigator.clipboard.writeText(t).then(() => alert('Copiato negli appunti!')); }
+}
+
+function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function restart() { digestTimeLeft = 90; gameTimeLeft = 90; currentQuestion = 0; score = 0; streak = 0; categoryScores = {}; try{localStorage.removeItem('dome180');}catch(e){} showScreen('splash'); }
+</script>
+</body>
+</html>

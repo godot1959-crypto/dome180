@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guida Completa Substack — Innesco</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #f5f4f0;
+    color: #1a1a1a;
+    line-height: 1.7;
+    font-size: 17px;
+  }
+
+  /* HEADER */
+  header {
+    background: #ff6719;
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 2.4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+  header p {
+    font-size: 1.1em;
+    opacity: 0.92;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .substack-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 0.85em;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* INDICE */
+  .indice {
+    background: white;
+    border-left: 4px solid #ff6719;
+    margin: 32px auto;
+    max-width: 820px;
+    padding: 24px 32px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .indice h3 {
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ff6719;
+    margin-bottom: 14px;
+  }
+  .indice ol {
+    padding-left: 20px;
+  }
+  .indice ol li {
+    margin-bottom: 6px;
+  }
+  .indice a {
+    color: #1a1a1a;
+    text-decoration: none;
+    border-bottom: 1px solid #ddd;
+  }
+  .indice a:hover { border-color: #ff6719; color: #ff6719; }
+
+  /* SEZIONI */
+  .sezione {
+    background: white;
+    max-width: 820px;
+    margin: 24px auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .sezione-header {
+    background: #1a1a1a;
+    color: white;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .sezione-numero {
+    background: #ff6719;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    flex-shrink: 0;
+  }
+  .sezione-header h2 {
+    font-size: 1.25em;
+    font-weight: bold;
+  }
+  .sezione-header .tempo {
+    margin-left: auto;
+    font-size: 0.8em;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+  .sezione-corpo {
+    padding: 28px 32px;
+  }
+
+  /* STEP */
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: flex-start;
+  }
+  .step-n {
+    background: #f0ede8;
+    color: #666;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-testo { flex: 1; }
+  .step-testo strong { display: block; margin-bottom: 4px; color: #1a1a1a; }
+  .step-testo p { color: #444; font-size: 0.95em; }
+
+  /* COPY BOX */
+  .copy-box {
+    background: #fafaf7;
+    border: 1px solid #e0ddd6;
+    border-left: 3px solid #ff6719;
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.88em;
+    line-height: 1.6;
+    color: #2a2a2a;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .copy-label {
+    font-family: 'Georgia', serif;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ff6719;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* AVVISO / TIP / ATTENZIONE */
+  .tip, .attenzione, .info {
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 0.92em;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .tip { background: #edf7ed; border-left: 3px solid #2d9c2d; }
+  .attenzione { background: #fff8e6; border-left: 3px solid #e6a817; }
+  .info { background: #e8f0fe; border-left: 3px solid #4a7cf5; }
+  .tip-icon, .attenzione-icon, .info-icon {
+    font-size: 1.1em;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* TABELLA */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.92em;
+  }
+  th {
+    background: #1a1a1a;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #fafaf7; }
+  tr:hover td { background: #fff4ee; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    padding: 8px 0 8px 32px;
+    position: relative;
+    border-bottom: 1px solid #f0ede8;
+    font-size: 0.95em;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 4px;
+    color: #ff6719;
+    font-size: 1.1em;
+  }
+
+  /* SEPARATORE */
+  .sep { height: 1px; background: #eee; margin: 24px 0; }
+
+  /* HIGHLIGHT */
+  .highlight {
+    background: #fff3ec;
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: #cc4800;
+    font-weight: bold;
+  }
+
+  /* SCHEMA VISIVO */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+  }
+  .funnel-step {
+    background: #1a1a1a;
+    color: white;
+    padding: 14px 20px;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .funnel-step:nth-child(1) { background: #ff6719; }
+  .funnel-step:nth-child(2) { background: #e55500; }
+  .funnel-step:nth-child(3) { background: #cc4400; }
+  .funnel-step:nth-child(4) { background: #1a1a1a; }
+  .funnel-n {
+    font-size: 1.4em;
+    font-weight: bold;
+    min-width: 28px;
+  }
+  .funnel-testo strong { display: block; font-size: 1em; }
+  .funnel-testo span { font-size: 0.85em; opacity: 0.85; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: #888;
+    font-size: 0.85em;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .sezione-corpo { padding: 20px 18px; }
+    header h1 { font-size: 1.8em; }
+    .sezione-header { padding: 16px 18px; }
+    .step { flex-direction: row; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="substack-badge">Guida Pratica</div>
+  <h1>Come aprire e far crescere<br>una newsletter su Substack</h1>
+  <p>Da zero iscritti a 365 — passo dopo passo, senza sapere nulla di Substack.<br>Guida pensata per la newsletter <strong>Innesco</strong>.</p>
+</header>
+
+<!-- INDICE -->
+<div class="indice">
+  <h3>Cosa trovi in questa guida</h3>
+  <ol>
+    <li><a href="#cos-e-substack">Cos'è Substack e come funziona</a></li>
+    <li><a href="#registrazione">Registrazione — crea il tuo account</a></li>
+    <li><a href="#profilo">Configura il profilo (nome, descrizione, bio)</a></li>
+    <li><a href="#impostazioni">Impostazioni essenziali prima di pubblicare</a></li>
+    <li><a href="#primo-post">Scrivi e pubblica il primo post</a></li>
+    <li><a href="#notes">Come usare le Notes (il motore di crescita)</a></li>
+    <li><a href="#crescita">Strategia di crescita 0 → 365 iscritti</a></li>
+    <li><a href="#checklist">Checklist prima di ogni pubblicazione</a></li>
+  </ol>
+</div>
+
+
+<!-- SEZIONE 1 -->
+<div class="sezione" id="cos-e-substack">
+  <div class="sezione-header">
+    <div class="sezione-numero">1</div>
+    <h2>Cos'è Substack e come funziona</h2>
+    <span class="tempo">5 min di lettura</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <p>Substack è una piattaforma gratuita che ti permette di creare una newsletter — una pubblicazione che arriva per email ai tuoi iscritti. Non hai bisogno di un sito web, non devi sapere programmare, non devi gestire server.</p>
+
+    <div class="sep"></div>
+
+    <p><strong>Come funziona in pratica:</strong></p>
+
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-testo">
+        <strong>Tu scrivi un post</strong>
+        <p>Usando l'editor di Substack (simile a Word, tutto via browser).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-testo">
+        <strong>Substack lo manda per email a tutti i tuoi iscritti</strong>
+        <p>Automaticamente. Nessuna configurazione tecnica necessaria.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-testo">
+        <strong>Il post è anche una pagina web pubblica</strong>
+        <p>Chiunque può leggerlo su internet, e Google lo indicizza. Questo porta nuovi lettori.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-testo">
+        <strong>Chi vuole seguirti si iscrive con la sua email</strong>
+        <p>Gratuitamente. Tu costruisci la tua lista lettori — che possiedi tu, non un algoritmo.</p>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <p><strong>Il funnel di Innesco — come funziona ogni post:</strong></p>
+
+    <div class="funnel">
+      <div class="funnel-step">
+        <div class="funnel-n">1</div>
+        <div class="funnel-testo">
+          <strong>La scoperta</strong>
+          <span>Il lettore legge 4-6 righe su cosa ha inventato uno scienziato italiano. Fonte verificabile inclusa.</span>
+        </div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">2</div>
+        <div class="funnel-testo">
+          <strong>L'idea implicita</strong>
+          <span>1-2 righe che aprono lo spazio mentale. Il lettore pensa da solo al business.</span>
+        </div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">3</div>
+        <div class="funnel-testo">
+          <strong>Il bando</strong>
+          <span>Un finanziamento europeo reale con importo, paese e link diretto.</span>
+        </div>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">4</div>
+        <div class="funnel-testo">
+          <strong>Abstract in inglese</strong>
+          <span>Stile Reuters — per lettori internazionali e SEO su Google.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      <span class="info-icon">ℹ</span>
+      <div><strong>Substack è gratis.</strong> Non paghi nulla finché non decidi di offrire contenuti a pagamento (paid). Puoi crescere fino a migliaia di iscritti senza spendere un euro.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- SEZIONE 2 -->
+<div class="sezione" id="registrazione">
+  <div class="sezione-header">
+    <div class="sezione-numero">2</div>
+    <h2>Registrazione — crea il tuo account</h2>
+    <span class="tempo">10 minuti</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <div class="attenzione">
+      <span class="attenzione-icon">⚠</span>
+      <div>Prima di iniziare, decidi il <strong>nome della newsletter</strong>. Quello che scegli diventa il tuo URL (es. <em>innesco.substack.com</em>) e non si può cambiare facilmente dopo. Leggi la Sezione 3 prima di registrarti se non hai ancora scelto.</div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-testo">
+        <strong>Vai su substack.com</strong>
+        <p>Apri il browser e digita <span class="highlight">substack.com</span> nella barra degli indirizzi. Clicca su <em>"Start writing"</em> o <em>"Sign up"</em>.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-testo">
+        <strong>Inserisci la tua email e crea una password</strong>
+        <p>Usa un indirizzo email che controlli regolarmente — è quello da cui partono tutte le newsletter ai tuoi iscritti.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-testo">
+        <strong>Conferma l'email</strong>
+        <p>Substack ti manda un link di verifica. Aprilo per attivare l'account.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-testo">
+        <strong>Substack ti chiede di creare la tua pubblicazione</strong>
+        <p>Clicca su <em>"Create your publication"</em>. Qui inserisci per la prima volta il nome della newsletter.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">5</div>
+      <div class="step-testo">
+        <strong>Scegli l'URL della newsletter</strong>
+        <p>Substack suggerisce automaticamente un URL basato sul nome. Puoi modificarlo. L'URL sarà tipo: <span class="highlight">nomescelto.substack.com</span>. Controlla che sia disponibile e confermalo.</p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">✓</span>
+      <div><strong>Nome consigliato: Innesco</strong> — URL: <em>innesco.substack.com</em>. Breve, originale, nessun concorrente diretto su Substack al momento. Se non è disponibile, prova: <em>innesco-italia</em> o <em>innescoweb</em>.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- SEZIONE 3 -->
+<div class="sezione" id="profilo">
+  <div class="sezione-header">
+    <div class="sezione-numero">3</div>
+    <h2>Configura il profilo — copia e incolla</h2>
+    <span class="tempo">20 minuti</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <p>Vai su <span class="highlight">Impostazioni → Pubblicazione</span> (in alto a destra, icona ingranaggio). Qui trovi tutti i campi del profilo.</p>
+
+    <div class="sep"></div>
+
+    <p><strong>Nome della newsletter</strong> (campo "Publication name")</p>
+    <span class="copy-label">✂ copia e incolla</span>
+    <div class="copy-box">Innesco</div>
+
+    <p><strong>Tagline</strong> (campo "Description" — appare sotto il nome in ogni anteprima)</p>
+    <span class="copy-label">✂ copia e incolla</span>
+    <div class="copy-box">Scienziati italiani. Bandi europei. Un'idea a settimana.</div>
+
+    <div class="sep"></div>
+
+    <p><strong>Descrizione About page</strong> (campo "About" — clicca su "Edit" nella pagina della newsletter)</p>
+    <span class="copy-label">✂ copia e incolla — PRIMA RIGA (importante per Google)</span>
+    <div class="copy-box">Newsletter settimanale su scienziati italiani, bandi europei e opportunità di impresa. Fonti verificabili. Sanità, energia, startup. 1 post a settimana.</div>
+
+    <span class="copy-label">✂ copia e incolla — TESTO COMPLETO ABOUT PAGE</span>
+    <div class="copy-box">Ogni settimana: una scoperta di un ricercatore italiano, un bando europeo per finanziarla, e lo spazio per pensare a cosa potresti farci.
+
+Nessuna opinione. Solo fatti verificabili, fonti linkate, numeri reali.
+
+I temi: sanità, energia, startup (round e acquisizioni), libertà di stabilimento in Europa, scienziati italiani con brevetti attivi.
+
+Il formato: 400 parole. 4 fonti. 1 abstract in inglese per chi vuole approfondire oltre confine.
+
+Innesco non ti dice cosa fare. Ti dà l'accendino.</div>
+
+    <div class="sep"></div>
+
+    <p><strong>Bio autore</strong> (campo "Bio" nella sezione Author)</p>
+    <span class="copy-label">✂ copia e incolla</span>
+    <div class="copy-box">Consulente con vent'anni di esperienza in diritto societario, successioni e immobili. Curioso di scienza applicata, energie rinnovabili e mercati europei. Innesco è il modo in cui metto insieme le due cose.</div>
+
+    <div class="sep"></div>
+
+    <p><strong>Immagine copertina newsletter</strong> (campo "Logo" o "Cover image")</p>
+    <div class="tip">
+      <span class="tip-icon">✓</span>
+      <div>Crea un'immagine semplice con sfondo arancione (<span class="highlight">#ff6719</span> è il colore di Substack) e la parola INNESCO in bianco, font sans-serif. Dimensioni ideali: 1200×630 pixel. Puoi farla gratis su <strong>canva.com</strong> — cerca il template "Email Header".</div>
+    </div>
+
+    <div class="attenzione">
+      <span class="attenzione-icon">⚠</span>
+      <div><strong>Foto profilo autore:</strong> non è obbligatoria. Se preferisci non metterla, usa un'icona astratta o il logo della newsletter. L'autorevolezza viene dai contenuti e dalle fonti, non dall'identità visiva.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- SEZIONE 4 -->
+<div class="sezione" id="impostazioni">
+  <div class="sezione-header">
+    <div class="sezione-numero">4</div>
+    <h2>Impostazioni essenziali prima di pubblicare</h2>
+    <span class="tempo">15 minuti</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <table>
+      <tr><th>Impostazione</th><th>Dove si trova</th><th>Cosa impostare</th></tr>
+      <tr><td><strong>Lingua</strong></td><td>Settings → Publication → Language</td><td>Italian (it)</td></tr>
+      <tr><td><strong>Categoria</strong></td><td>Settings → Publication → Category</td><td>Science + Business</td></tr>
+      <tr><td><strong>Frequenza pubbl.</strong></td><td>Settings → Email → Sending frequency</td><td>Weekly (settimanale)</td></tr>
+      <tr><td><strong>Giorno invio</strong></td><td>Settings → Email → Day/Time</td><td>Martedì, ore 07:30</td></tr>
+      <tr><td><strong>Welcome email</strong></td><td>Settings → Email → Welcome email</td><td>Attiva e personalizza (testo sotto)</td></tr>
+      <tr><td><strong>Commenti</strong></td><td>Settings → Community → Comments</td><td>Attivi (favorisce engagement)</td></tr>
+      <tr><td><strong>Notes</strong></td><td>Settings → Community → Notes</td><td>Attivo (fondamentale per la crescita)</td></tr>
+    </table>
+
+    <div class="sep"></div>
+
+    <p><strong>Welcome email — testo da inserire</strong> (la prima email che riceve ogni nuovo iscritto)</p>
+    <p style="margin-bottom:10px;color:#666;font-size:0.9em;">Oggetto email di benvenuto:</p>
+    <span class="copy-label">✂ oggetto</span>
+    <div class="copy-box">Benvenuto in Innesco — ecco come funziona</div>
+
+    <span class="copy-label">✂ corpo email</span>
+    <div class="copy-box">Grazie per esserti iscritto.
+
+Ogni settimana riceverai un post con questa struttura:
+
+→ Una scoperta di un ricercatore italiano (4-6 righe, fonte verificabile)
+→ L'idea che ne deriva (1-2 righe — ci pensi tu)
+→ Il bando per finanziarla (importo, paese, link diretto)
+→ Abstract in inglese
+
+Niente opinioni. Niente CTA. Solo informazioni che puoi verificare e usare.
+
+Se un post ti fa venire un'idea su cui vuoi lavorare concretamente,
+sai dove trovarmi.
+
+— Innesco</div>
+
+  </div>
+</div>
+
+
+<!-- SEZIONE 5 -->
+<div class="sezione" id="primo-post">
+  <div class="sezione-header">
+    <div class="sezione-numero">5</div>
+    <h2>Scrivi e pubblica il primo post</h2>
+    <span class="tempo">45 minuti (scrittura) + 5 min (pubblicazione)</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <p>Vai su <span class="highlight">Dashboard → New post</span>. Si apre l'editor — funziona come Word.</p>
+
+    <div class="sep"></div>
+
+    <p><strong>Struttura da usare per ogni post (template fisso):</strong></p>
+
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-testo">
+        <strong>TITOLO (campo in alto nell'editor)</strong>
+        <p>Maiuscolo, diretto, con nome proprio O numero concreto. Formula: [TEMA]: [COSA HA FATTO] + [DATO]</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-testo">
+        <strong>SOTTOTITOLO (campo "Subtitle" — cliccaci sopra per attivarlo)</strong>
+        <p>Max 120 caratteri. Contiene 2 keyword. Questo è ciò che Google mostra nei risultati di ricerca.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-testo">
+        <strong>CORPO — Blocco 1: La scoperta</strong>
+        <p>4-6 righe. Nome scienziato, istituzione, cosa ha scoperto, dato tecnico, stato del brevetto. Fonte numerata in fondo.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-testo">
+        <strong>CORPO — Blocco 2: L'idea implicita</strong>
+        <p>1-2 righe. Una frase visiva che apre lo spazio mentale del lettore. Nessuna CTA, nessun "dovresti fare".</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">5</div>
+      <div class="step-testo">
+        <strong>CORPO — Blocco 3: Il bando</strong>
+        <p>Nome bando, paese, importo a fondo perduto, percentuale copertura, scadenza, link ufficiale. Fonte numerata.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">6</div>
+      <div class="step-testo">
+        <strong>SEZIONE FONTI (in fondo al post)</strong>
+        <p>¹ [Titolo — Istituzione](link) &nbsp; ² [Titolo — Ente](link) &nbsp; ecc. Ogni dato citato nel testo deve avere la sua fonte.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">7</div>
+      <div class="step-testo">
+        <strong>ABSTRACT IN ENGLISH</strong>
+        <p>3-4 righe. Stile Reuters. Stesso contenuto del post in inglese sintetico. Va inserito dopo la sezione Fonti.</p>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <p><strong>Come pubblicare:</strong></p>
+
+    <div class="step">
+      <div class="step-n">A</div>
+      <div class="step-testo">
+        <strong>Clicca su "Continue" (in alto a destra)</strong>
+        <p>Si apre il pannello di pubblicazione.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">B</div>
+      <div class="step-testo">
+        <strong>Aggiungi i Tag (max 5)</strong>
+        <p>Scegli tra: Science, Technology, Health, Energy, Business, Entrepreneurship, Innovation, European Union, Startups, Investing.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">C</div>
+      <div class="step-testo">
+        <strong>Controlla la "Subject line" dell'email</strong>
+        <p>Di default usa il titolo del post. Puoi personalizzarla per renderla più d'impatto come oggetto email. Formula: usa un numero o un nome proprio.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n">D</div>
+      <div class="step-testo">
+        <strong>Clicca "Publish now" oppure "Schedule"</strong>
+        <p>Per programmare: scegli martedì o mercoledì mattina alle 07:30. Substack manda l'email automaticamente all'orario scelto.</p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">✓</span>
+      <div><strong>Prima di pubblicare</strong>, clicca "Preview" per vedere come appare il post sul sito e nell'email. Controlla che tutti i link alle fonti funzionino.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- SEZIONE 6 -->
+<div class="sezione" id="notes">
+  <div class="sezione-header">
+    <div class="sezione-numero">6</div>
+    <h2>Come usare le Notes — il motore di crescita gratuito</h2>
+    <span class="tempo">5 minuti a Note</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <p>Le Notes sono micro-post di massimo 300 caratteri (più un link opzionale). Funzionano come un feed social interno a Substack — chi non ti conosce può scoprirti attraverso le Note restackate da altri.</p>
+
+    <div class="info">
+      <span class="info-icon">ℹ</span>
+      <div><strong>Dove si trovano:</strong> nella tua Dashboard, clicca su "Notes" nel menu laterale. Poi "New note".</div>
+    </div>
+
+    <div class="sep"></div>
+
+    <p><strong>Formula per una Note efficace:</strong></p>
+    <span class="copy-label">struttura</span>
+    <div class="copy-box">[Fatto sorprendente in 1 riga — deve stare da solo, senza contesto]
+[Frase che apre la curiosità o una domanda implicita]
+→ Il post completo: [link]</div>
+
+    <p style="margin-top:16px;"><strong>Esempio Note reale (post sulla sepsi):</strong></p>
+    <span class="copy-label">✂ esempio copia e incolla</span>
+    <div class="copy-box">In Europa la sepsi uccide più di una persona al minuto. 525.000 morti l'anno.
+Un ricercatore italiano ha il biomarcatore per diagnosticarla 4 ore prima.
+→ [link al post]</div>
+
+    <div class="sep"></div>
+
+    <p><strong>Piano Note settimanale:</strong></p>
+
+    <table>
+      <tr><th>Giorno</th><th>Contenuto della Note</th></tr>
+      <tr><td><strong>Mercoledì</strong> (+1 giorno dalla pubbl.)</td><td>Note di lancio del post — fatto principale + link</td></tr>
+      <tr><td><strong>Venerdì</strong></td><td>Nota autonoma — un dato della settimana su scienza/impresa (senza link al post)</td></tr>
+      <tr><td><strong>Domenica</strong></td><td>Restacka 2 Note di altre newsletter nello stesso settore</td></tr>
+    </table>
+
+    <div class="tip">
+      <span class="tip-icon">✓</span>
+      <div><strong>Strategia restack:</strong> ogni domenica cerca 2-3 newsletter Substack che parlano di scienza, innovazione o impresa europea. Restacka una loro Note. Loro lo notano, ti seguono, ti restackano a loro volta. È il ciclo di crescita più potente su Substack.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- SEZIONE 7 -->
+<div class="sezione" id="crescita">
+  <div class="sezione-header">
+    <div class="sezione-numero">7</div>
+    <h2>Strategia di crescita 0 → 365 iscritti</h2>
+    <span class="tempo">Piano a 6 mesi</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <p><strong>I 3 motori di crescita di Substack:</strong></p>
+
+    <table>
+      <tr><th>#</th><th>Motore</th><th>Come funziona</th><th>Quando si attiva</th></tr>
+      <tr>
+        <td>1</td>
+        <td><strong>Notes + Restack</strong></td>
+        <td>Micro-post che vengono amplificati da altri writer</td>
+        <td>Subito — dal primo giorno</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>SEO Google</strong></td>
+        <td>Titolo + sottotitolo + abstract indicizzati da Google</td>
+        <td>2-4 settimane dopo la pubblicazione</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Substack Recommends</strong></td>
+        <td>Substack ti mostra agli iscritti di newsletter simili</td>
+        <td>Da 100 iscritti in poi</td>
+      </tr>
+    </table>
+
+    <div class="sep"></div>
+
+    <p><strong>Roadmap mese per mese:</strong></p>
+
+    <div class="step">
+      <div class="step-n" style="background:#ff6719;color:white;width:80px;border-radius:4px;height:auto;padding:4px 8px;font-size:0.78em;text-align:center;">Mese 1</div>
+      <div class="step-testo">
+        <strong>Fondamenta (obiettivo: 30 iscritti)</strong>
+        <p>Pubblica 4 post con il template completo. Scrivi a 10 newsletter italiane di scienza e business su Substack: proponi di scambiarsi una menzione. Condividi ogni post su LinkedIn con le prime 2 righe come caption.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#cc4400;color:white;width:80px;border-radius:4px;height:auto;padding:4px 8px;font-size:0.78em;text-align:center;">Mese 2-3</div>
+      <div class="step-testo">
+        <strong>Accelerazione (obiettivo: 100 iscritti)</strong>
+        <p>Attiva le Notes regolari (3 a settimana). Ogni post cita CNR, Humanitas, Politecnico o Sapienza — le istituzioni spesso restackano chi le cita. Pubblica almeno un post interamente in inglese (titolo + corpo + fonti) per traffico internazionale.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-n" style="background:#1a1a1a;color:white;width:80px;border-radius:4px;height:auto;padding:4px 8px;font-size:0.78em;text-align:center;">Mese 4-6</div>
+      <div class="step-testo">
+        <strong>Compound (obiettivo: 365 iscritti)</strong>
+        <p>A 100 iscritti: attiva Substack Recommends nelle impostazioni. A 200 iscritti: contatta un giornalista di IlSole24Ore o Italia Oggi per proporti come fonte. A 300 iscritti: valuta il modello freemium (1 post gratuito + 1 approfondimento paid al mese).</p>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <p><strong>Calendario settimanale tipo:</strong></p>
+
+    <table>
+      <tr><th>Giorno</th><th>Azione</th><th>Tempo</th></tr>
+      <tr><td>Lunedì</td><td>Scrivi il post della settimana</td><td>45 min</td></tr>
+      <tr><td>Martedì mattina (07:30)</td><td>Pubblica il post</td><td>5 min</td></tr>
+      <tr><td>Mercoledì</td><td>Pubblica Note di lancio del post</td><td>5 min</td></tr>
+      <tr><td>Venerdì</td><td>Pubblica Note autonoma (un dato della settimana)</td><td>5 min</td></tr>
+      <tr><td>Domenica</td><td>Restacka 2 Note di altri writer del settore</td><td>5 min</td></tr>
+    </table>
+
+    <p style="margin-top:16px;"><strong>Totale tempo settimanale: circa 65 minuti.</strong></p>
+
+    <div class="tip">
+      <span class="tip-icon">✓</span>
+      <div><strong>La regola d'oro della crescita Substack:</strong> il tasso di apertura email è il segnale più importante per l'algoritmo. Obiettivo: sopra il 40% (la media Substack è 35%). Per alzarlo: cura l'oggetto email come se fosse il titolo di un articolo. Usa nomi propri o numeri nell'oggetto.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- SEZIONE 8 -->
+<div class="sezione" id="checklist">
+  <div class="sezione-header">
+    <div class="sezione-numero">8</div>
+    <h2>Checklist — prima di ogni pubblicazione</h2>
+    <span class="tempo">2 minuti di verifica</span>
+  </div>
+  <div class="sezione-corpo">
+
+    <p>Stampa o tieni aperta questa checklist ogni volta che pubblichi un post.</p>
+
+    <div class="sep"></div>
+
+    <p><strong>Contenuto del post:</strong></p>
+    <ul class="checklist">
+      <li>Il titolo contiene un nome proprio O un numero O entrambi?</li>
+      <li>Il sottotitolo è max 120 caratteri e contiene almeno 2 keyword?</li>
+      <li>Il Blocco 1 (scoperta) è max 6 righe e ha una fonte linkabile?</li>
+      <li>Il Blocco 2 (idea implicita) è max 2 righe senza CTA esplicita?</li>
+      <li>Il Blocco 3 (bando) ha importo, paese e link diretto alla pagina ufficiale?</li>
+      <li>L'abstract in inglese è presente e max 4 righe?</li>
+      <li>Tutte le fonti sono linkate e i link funzionano?</li>
+    </ul>
+
+    <div class="sep"></div>
+
+    <p><strong>Prima di cliccare "Publish":</strong></p>
+    <ul class="checklist">
+      <li>Hai scelto 5 tag pertinenti?</li>
+      <li>Hai controllato l'oggetto email (Subject line)?</li>
+      <li>Hai cliccato "Preview" e controllato come appare su desktop e mobile?</li>
+      <li>Hai già scritto la Note di lancio da pubblicare il giorno dopo?</li>
+    </ul>
+
+    <div class="sep"></div>
+
+    <p><strong>Dopo la pubblicazione:</strong></p>
+    <ul class="checklist">
+      <li>Il giorno dopo: pubblica la Note di lancio su Substack Notes</li>
+      <li>Condividi il link del post su LinkedIn (prime 2 righe come caption)</li>
+      <li>Aggiorna la tabella Archivio Post nel file SUBSTACK_SISTEMA_COMPLETO.md</li>
+      <li>Domenica: restacka 2 Note di altri writer del settore</li>
+    </ul>
+
+    <div class="attenzione">
+      <span class="attenzione-icon">⚠</span>
+      <div><strong>Non modificare un post dopo che è stato inviato per email.</strong> La versione email è già partita agli iscritti e non può essere richiamata. Puoi modificare la versione web, ma gli iscritti hanno già ricevuto quella originale.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- RIEPILOGO FINALE -->
+<div class="sezione" style="border-left: 4px solid #ff6719;">
+  <div class="sezione-corpo" style="padding: 28px 32px;">
+    <h3 style="font-size:1.1em;margin-bottom:16px;">Riepilogo: cosa fare oggi</h3>
+    <ul class="checklist">
+      <li>Vai su substack.com e registra l'account con il nome <strong>Innesco</strong></li>
+      <li>Copia e incolla la tagline, la descrizione About e la bio dal file SUBSTACK_SISTEMA_COMPLETO.md</li>
+      <li>Configura la welcome email</li>
+      <li>Imposta giorno e ora di invio: martedì ore 07:30</li>
+      <li>Scrivi il primo post usando il template (Sezione 5)</li>
+      <li>Pubblica il primo post</li>
+      <li>Il giorno dopo: scrivi la prima Note</li>
+    </ul>
+  </div>
+</div>
+
+
+<footer>
+  <p>Guida creata per la newsletter <strong>Innesco</strong> — maggio 2026</p>
+  <p style="margin-top:8px;">Per aggiornamenti al sistema: apri il file <em>SUBSTACK_SISTEMA_COMPLETO.md</em> nella stessa cartella.</p>
+</footer>
+
+</body>
+</html>

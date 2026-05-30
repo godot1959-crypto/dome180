@@ -1,0 +1,102 @@
+{
+  "newsletter": "Innesco",
+  "beta_test": true,
+  "posts": [
+    {
+      "n": 1,
+      "data": "2026-05-08",
+      "completato": true,
+      "file": "BOZZA_POST_001_2026-05-08.html",
+      "tema": "Sanità",
+      "ricercatore": "Alberto Mantovani",
+      "scoperta": "PTX3 come biomarcatore precoce della sepsi",
+      "istituzione": "Humanitas University, Milano",
+      "bando": "Innosuisse — Startup Innovation Projects (Svizzera)",
+      "note": "Post di test — già scritto manualmente"
+    },
+    {
+      "n": 2,
+      "data": "2026-05-09",
+      "completato": false,
+      "file": "BOZZA_POST_002_2026-05-09.html",
+      "tema": "Energia",
+      "ricercatore": "Aldo Di Carlo",
+      "scoperta": "Celle solari a perovskite stampabili, costo -40% rispetto al silicio",
+      "istituzione": "Sapienza Università di Roma, progetto APOLO",
+      "bando": "EIC Accelerator — European Innovation Council (UE)",
+      "note": "Ricercare fonti aggiornate su PubMed e sito EIC"
+    },
+    {
+      "n": 3,
+      "data": "2026-05-10",
+      "completato": false,
+      "file": "BOZZA_POST_003_2026-05-10.html",
+      "tema": "Sanità",
+      "ricercatore": "Giuseppe Curigliano",
+      "scoperta": "Biopsia liquida ctDNA per diagnosi precoce cancro polmone",
+      "istituzione": "IEO — Istituto Europeo di Oncologia, Milano",
+      "bando": "Horizon Europe — Health Cluster, call HORIZON-HLTH-2025",
+      "note": "Cercare pubblicazioni recenti su ctDNA early detection"
+    },
+    {
+      "n": 4,
+      "data": "2026-05-11",
+      "completato": false,
+      "file": "BOZZA_POST_004_2026-05-11.html",
+      "tema": "Energia",
+      "ricercatore": "Ricercatori ENEA",
+      "scoperta": "Elettrolizzatori ad alta temperatura per idrogeno verde a basso costo",
+      "istituzione": "ENEA — Agenzia nazionale per le nuove tecnologie",
+      "bando": "Enterprise Ireland — Innovation Partnership (Irlanda)",
+      "note": "Cercare dati costo per kg idrogeno verde ENEA 2024-2025"
+    },
+    {
+      "n": 5,
+      "data": "2026-05-12",
+      "completato": false,
+      "file": "BOZZA_POST_005_2026-05-12.html",
+      "tema": "Startup",
+      "ricercatore": null,
+      "scoperta": "Round Series A startup medtech italiana più significativo 2025-2026",
+      "istituzione": "Da ricercare — startup italiana healthtech/medtech",
+      "bando": "BPI France — French Tech Visa + finanziamento PMI innovativa (Francia)",
+      "note": "Cercare su Crunchbase o TechCrunch: Italian medtech startup Series A 2025 2026"
+    },
+    {
+      "n": 6,
+      "data": "2026-05-13",
+      "completato": false,
+      "file": "BOZZA_POST_006_2026-05-13.html",
+      "tema": "Sanità",
+      "ricercatore": "Ricercatori Politecnico di Milano",
+      "scoperta": "Sistema AI per diagnosi precoce retinopatia diabetica da smartphone",
+      "istituzione": "Politecnico di Milano — Dipartimento di Elettronica",
+      "bando": "Innvation Fund Denmark — Digital Health (Danimarca)",
+      "note": "Cercare pubblicazioni AI ophthalmology Politecnico Milano"
+    },
+    {
+      "n": 7,
+      "data": "2026-05-14",
+      "completato": false,
+      "file": "BOZZA_POST_007_2026-05-14.html",
+      "tema": "Energia",
+      "ricercatore": "Ricercatori CNR",
+      "scoperta": "Batterie allo stato solido con elettrolita ceramico — autonomia +80% vs litio",
+      "istituzione": "CNR — Consiglio Nazionale delle Ricerche",
+      "bando": "Portugal Ventures + Portugal 2030 — Clean Energy (Portogallo)",
+      "note": "Cercare CNR solid state battery 2024 2025 ricercatori italiani"
+    },
+    {
+      "n": 8,
+      "data": "2026-05-15",
+      "completato": false,
+      "file": "BOZZA_POST_008_2026-05-15.html",
+      "tema": "Bandi esteri",
+      "ricercatore": null,
+      "scoperta": "E-Residency estone e libertà di stabilimento UE — come aprire una società tech in 24 ore",
+      "istituzione": "e-Estonia / Enterprise Estonia",
+      "bando": "EAS (Enterprise Estonia) — Startup Grant fino a 50.000 euro",
+      "note": "Cercare e-residency statistics 2025, EAS startup grant requirements"
+    }
+  ]
+}

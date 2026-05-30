@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOZZA #1 — Innesco | 8 maggio 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: #f5f4f0; color: #1a1a1a; line-height: 1.75; font-size: 18px; }
+
+  /* BARRA STATO BOZZA */
+  .bozza-bar {
+    background: #1a1a1a;
+    color: #ff6719;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* HEADER NEWSLETTER */
+  .nl-header {
+    background: white;
+    border-bottom: 3px solid #ff6719;
+    padding: 28px 0 20px;
+    text-align: center;
+  }
+  .nl-nome {
+    font-size: 2em;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+  }
+  .nl-tagline {
+    color: #888;
+    font-size: 0.88em;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* META POST */
+  .post-meta {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 14px 0;
+    text-align: center;
+    font-size: 0.82em;
+    color: #888;
+    letter-spacing: 0.5px;
+  }
+  .post-meta .tag {
+    display: inline-block;
+    background: #ff6719;
+    color: white;
+    border-radius: 3px;
+    padding: 2px 10px;
+    font-size: 0.85em;
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* CONTENUTO */
+  .post-wrap {
+    background: white;
+    margin: 0;
+    padding: 48px 0 40px;
+  }
+
+  h1.titolo {
+    font-size: 1.6em;
+    font-weight: bold;
+    line-height: 1.3;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+  }
+
+  .sottotitolo {
+    color: #666;
+    font-size: 0.95em;
+    font-style: italic;
+    border-left: 3px solid #ff6719;
+    padding-left: 14px;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  /* BLOCCHI */
+  .blocco {
+    margin-bottom: 28px;
+  }
+  .blocco-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ff6719;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .blocco p {
+    margin-bottom: 10px;
+    color: #2a2a2a;
+  }
+
+  /* BLOCCO IDEA — diverso visivamente */
+  .blocco-idea {
+    background: #fff8f4;
+    border-left: 4px solid #ff6719;
+    padding: 16px 20px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 28px;
+    font-style: italic;
+    color: #333;
+  }
+
+  /* BLOCCO BANDO */
+  .blocco-bando {
+    background: #f0f7f0;
+    border-left: 4px solid #2d9c2d;
+    padding: 16px 20px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 28px;
+  }
+  .blocco-bando strong { color: #1a5c1a; }
+
+  /* SEPARATORE */
+  hr { border: none; border-top: 1px solid #eee; margin: 28px 0; }
+
+  /* FONTI */
+  .fonti {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+  }
+  .fonti h3 {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 12px;
+  }
+  .fonti ol { padding-left: 20px; }
+  .fonti li {
+    margin-bottom: 8px;
+    font-size: 0.85em;
+    color: #555;
+  }
+  .fonti a {
+    color: #ff6719;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .fonti a:hover { text-decoration: underline; }
+
+  /* ABSTRACT */
+  .abstract {
+    background: #1a1a1a;
+    color: #e0e0e0;
+    padding: 24px 28px;
+    border-radius: 4px;
+    margin-top: 28px;
+  }
+  .abstract h3 {
+    font-size: 0.72em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ff6719;
+    margin-bottom: 12px;
+  }
+  .abstract p {
+    font-size: 0.9em;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* SEZIONE COPIA SUBSTACK */
+  .copia-wrap {
+    background: #fafaf7;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    margin: 40px 0 0;
+    padding: 24px 28px;
+  }
+  .copia-wrap h3 {
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 14px;
+  }
+  .copia-box {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82em;
+    line-height: 1.7;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .copia-field {
+    margin-bottom: 16px;
+  }
+  .copia-field-label {
+    font-size: 0.72em;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ff6719;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  /* FOOTER */
+  .post-footer {
+    text-align: center;
+    padding: 32px 0 48px;
+    font-size: 0.8em;
+    color: #bbb;
+  }
+  .post-footer strong { color: #888; }
+</style>
+</head>
+<body>
+
+<!-- BARRA BOZZA -->
+<div class="bozza-bar">
+  ⚠ BOZZA #1 &nbsp;·&nbsp; 8 maggio 2026 &nbsp;·&nbsp; Beta test — non pubblicare prima della revisione
+</div>
+
+<!-- HEADER NEWSLETTER -->
+<div class="nl-header">
+  <div class="container">
+    <div class="nl-nome">Innesco</div>
+    <div class="nl-tagline">Scienziati italiani. Bandi europei. Un'idea a settimana.</div>
+  </div>
+</div>
+
+<!-- META -->
+<div class="post-meta">
+  <span class="tag">Sanità</span>
+  <span>8 maggio 2026</span>
+  &nbsp;·&nbsp;
+  <span>Post #1 di 8</span>
+  &nbsp;·&nbsp;
+  <span>Beta test</span>
+</div>
+
+<!-- CONTENUTO POST -->
+<div class="post-wrap">
+<div class="container">
+
+  <h1 class="titolo">SEPSI: L'IMMUNOLOGO ITALIANO PIÙ CITATO AL MONDO HA UNO STRUMENTO PER DIAGNOSTICARLA IN ANTICIPO</h1>
+
+  <div class="sottotitolo">
+    Ricerca italiana su PTX3, Humanitas University — diagnosi precoce sepsi e opportunità di finanziamento europeo
+  </div>
+
+  <!-- BLOCCO 1: LA SCOPERTA -->
+  <div class="blocco">
+    <span class="blocco-label">La scoperta ¹ ²</span>
+    <p>Alberto Mantovani — presidente della Fondazione Humanitas per la Ricerca, professore emerito a Humanitas University e l'immunologo più citato d'Europa con H-index 190 — ha dimostrato che la proteina PTX3 è un marcatore affidabile di gravità e mortalità nella sepsi, capace di predire nuovi cedimenti d'organo e rischio di morte già nelle prime ore dal ricovero.</p>
+    <p>In Europa la sepsi uccide più di una persona al minuto: oltre 525.000 morti l'anno. ³ Gli strumenti di diagnosi precoce al letto del paziente restano insufficienti.</p>
+  </div>
+
+  <!-- BLOCCO 2: L'IDEA IMPLICITA -->
+  <div class="blocco-idea">
+    <span class="blocco-label" style="font-style:normal;">L'idea implicita</span>
+    Un dispositivo point-of-care — risultato in 15 minuti, senza laboratorio centralizzato — che misuri PTX3 all'arrivo in pronto soccorso.
+  </div>
+
+  <!-- BLOCCO 3: IL BANDO -->
+  <div class="blocco-bando">
+    <span class="blocco-label" style="color:#2d9c2d;font-style:normal;">Il bando ⁴</span>
+    <p><strong>Innosuisse</strong> (Agenzia svizzera per l'innovazione) finanzia startup deep-tech in ambito diagnostico con contributi fino al <strong>70% dei costi diretti di progetto</strong>, attraverso quattro sessioni di valutazione annuali. La GmbH svizzera si costituisce con CHF 20.000 di capitale. La prossima finestra utile è la sessione autunnale 2026.</p>
+  </div>
+
+  <hr>
+
+  <!-- FONTI -->
+  <div class="fonti">
+    <h3>Fonti</h3>
+    <ol>
+      <li>
+        <a href="https://www.humanitas-research.com/researchers/alberto-mantovani/" target="_blank">
+          Profilo Alberto Mantovani — Humanitas Research
+        </a>
+      </li>
+      <li>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/31031772/" target="_blank">
+          PTX3 come biomarcatore nella sepsi — Frontiers in Immunology / PubMed
+        </a>
+      </li>
+      <li>
+        <a href="https://www.europeansepsisalliance.org/sepsis" target="_blank">
+          Dati mortalità sepsi in Europa — European Sepsis Alliance
+        </a>
+      </li>
+      <li>
+        <a href="https://www.innosuisse.admin.ch/en/start-up-innovation-projects" target="_blank">
+          Startup Innovation Projects — Innosuisse
+        </a>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ABSTRACT EN -->
+  <div class="abstract">
+    <h3>Abstract — English</h3>
+    <p>Alberto Mantovani, Europe's most cited immunologist (H-index 190, Humanitas University, Milan), demonstrated that the protein PTX3 is a reliable early biomarker for sepsis severity and mortality prediction. Sepsis kills over 525,000 people per year in Europe — more than one per minute. Current point-of-care diagnostic tools remain inadequate for early triage. Switzerland's Innosuisse agency funds deep-tech diagnostics startups covering up to 70% of direct project costs, with four application windows per year.</p>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /post-wrap -->
+
+<!-- SEZIONE COPIA PER SUBSTACK -->
+<div class="container">
+<div class="copia-wrap">
+  <h3>✂ Copia per Substack — incolla nei campi corrispondenti</h3>
+
+  <div class="copia-field">
+    <span class="copia-field-label">Titolo (campo "Title")</span>
+    <div class="copia-box">SEPSI: L'IMMUNOLOGO ITALIANO PIÙ CITATO AL MONDO HA UNO STRUMENTO PER DIAGNOSTICARLA IN ANTICIPO</div>
+  </div>
+
+  <div class="copia-field">
+    <span class="copia-field-label">Sottotitolo (campo "Subtitle")</span>
+    <div class="copia-box">Ricerca italiana su PTX3, Humanitas University — diagnosi precoce sepsi e opportunità di finanziamento europeo</div>
+  </div>
+
+  <div class="copia-field">
+    <span class="copia-field-label">Oggetto email (campo "Subject line")</span>
+    <div class="copia-box">Alberto Mantovani, sepsi, e il test che manca in ogni pronto soccorso</div>
+  </div>
+
+  <div class="copia-field">
+    <span class="copia-field-label">Corpo del post (incolla nel corpo dell'editor Substack)</span>
+    <div class="copia-box">Alberto Mantovani — presidente della Fondazione Humanitas per la Ricerca, professore emerito a Humanitas University e l'immunologo più citato d'Europa con H-index 190 — ha dimostrato che la proteina PTX3 è un marcatore affidabile di gravità e mortalità nella sepsi, capace di predire nuovi cedimenti d'organo e rischio di morte già nelle prime ore dal ricovero.
+
+In Europa la sepsi uccide più di una persona al minuto: oltre 525.000 morti l'anno. Gli strumenti di diagnosi precoce al letto del paziente restano insufficienti.
+
+---
+
+Un dispositivo point-of-care — risultato in 15 minuti, senza laboratorio centralizzato — che misuri PTX3 all'arrivo in pronto soccorso.
+
+---
+
+Innosuisse (Agenzia svizzera per l'innovazione) finanzia startup deep-tech in ambito diagnostico con contributi fino al 70% dei costi diretti di progetto, attraverso quattro sessioni di valutazione annuali. La GmbH svizzera si costituisce con CHF 20.000 di capitale. La prossima finestra utile è la sessione autunnale 2026.
+
+---
+
+Fonti
+¹ Profilo Alberto Mantovani — Humanitas Research
+   https://www.humanitas-research.com/researchers/alberto-mantovani/
+² PTX3 come biomarcatore nella sepsi — PubMed
+   https://pubmed.ncbi.nlm.nih.gov/31031772/
+³ Dati mortalità sepsi in Europa — European Sepsis Alliance
+   https://www.europeansepsisalliance.org/sepsis
+⁴ Startup Innovation Projects — Innosuisse
+   https://www.innosuisse.admin.ch/en/start-up-innovation-projects
+
+---
+
+Abstract — Alberto Mantovani, Europe's most cited immunologist (H-index 190, Humanitas University, Milan), demonstrated that the protein PTX3 is a reliable early biomarker for sepsis severity and mortality prediction. Sepsis kills over 525,000 people per year in Europe — more than one per minute. Current point-of-care diagnostic tools remain inadequate for early triage. Switzerland's Innosuisse agency funds deep-tech diagnostics startups covering up to 70% of direct project costs, with four application windows per year.</div>
+  </div>
+
+  <div class="copia-field">
+    <span class="copia-field-label">Tag (scegli 5 in Substack)</span>
+    <div class="copia-box">Health · Science · Entrepreneurship · European Union · Innovation</div>
+  </div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<div class="post-footer">
+  <strong>Innesco</strong> — Beta test · Post #1 di 8 · Generato l'8 maggio 2026<br>
+  File: BOZZA_POST_001_2026-05-08.html
+</div>
+
+</body>
+</html>

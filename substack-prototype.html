@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOME180 - Il diario del curioso</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        header h1 {
+            font-size: 2.2em;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        header .subtitle {
+            font-size: 1em;
+            color: #666;
+            font-style: italic;
+        }
+        .issue-info {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .intro {
+            font-size: 1.15em;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f0f7ff;
+            border-left: 3px solid #3b82f6;
+            border-radius: 4px;
+        }
+        .pillola {
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #eee;
+        }
+        .pillola:last-of-type {
+            border-bottom: none;
+        }
+        .pillola-tag {
+            display: inline-block;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #1a1a1a;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            margin-bottom: 12px;
+        }
+        .pillola h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        .pillola p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        .domanda {
+            background: #fff9e6;
+            border: 1px solid #f0d860;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 1.05em;
+        }
+        .domanda::before {
+            content: "Vi chiedo: ";
+            font-weight: bold;
+            font-style: normal;
+        }
+        .scoperta {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+        .cta-box {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: #1a1a1a;
+            color: white;
+            border-radius: 8px;
+        }
+        .cta-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .cta-box p {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DOME180</h1>
+            <p class="subtitle">Un curioso esplora il mondo delle startup. Non insegno niente. Imparo in pubblico.</p>
+        </header>
+
+        <p class="issue-info">Numero 1 &mdash; Maggio 2026</p>
+
+        <div class="intro">
+            Ciao, sono Dome. Gestisco un piccolo studio e ogni settimana mi imbatto in cose che mi fanno dire "ma davvero funziona cos&igrave;?". Ho deciso di condividere le mie esplorazioni. Non ho risposte &mdash; ho domande. Se ti riconosci, siamo sulla stessa barca.
+        </div>
+
+        <!-- PILLOLA 1 -->
+        <div class="pillola">
+            <span class="pillola-tag">Talenti</span>
+            <h2>"Se non sei Bonding Spoons, come faccio a convincerti a investire su di me?"</h2>
+
+            <p>Questa settimana mi sono fatto una domanda brutale: perch&eacute; un talento dovrebbe scegliere la MIA realt&agrave; piccola, sconosciuta, senza brand?</p>
+
+            <p>Ho iniziato a scavare. <span class="scoperta">Scoperta:</span> le startup sotto i 10 dipendenti che attraggono talenti non competono sullo stipendio. Competono su una cosa che le grandi non possono dare &mdash; la velocit&agrave; con cui il tuo lavoro diventa visibile.</p>
+
+            <p>Un developer in una big corp aspetta 6 mesi per vedere il suo codice in produzione. Da te? Luned&igrave; lo scrive, venerd&igrave; &egrave; live. Questo &egrave; il tuo vantaggio. Non &egrave; il ping pong in ufficio.</p>
+
+            <p>Ma allora perch&eacute; non lo comunichiamo? Perch&eacute; nei nostri annunci scriviamo "ambiente dinamico" (che non significa niente) invece di "il tuo primo commit sar&agrave; in produzione entro 5 giorni"?</p>
+
+            <div class="domanda">Voi come avete convinto il primo talento a scommettere su di voi? Cosa gli avete detto che ha funzionato davvero?</div>
+        </div>
+
+        <!-- PILLOLA 2 -->
+        <div class="pillola">
+            <span class="pillola-tag">Clienti</span>
+            <h2>Ho scoperto che il primo cliente non si "attrae". Si merita.</h2>
+
+            <p>Stavo leggendo la storia di una SaaS italiana partita da zero. Niente budget ads, niente network potente. <span class="scoperta">Cosa hanno fatto?</span> Hanno risolto gratis un problema specifico a 5 aziende. Non un "trial". Un lavoro vero, completo, consegnato.</p>
+
+            <p>3 su 5 sono diventati clienti paganti. Le altre 2 li hanno referenziati.</p>
+
+            <p>Mi ha colpito perch&eacute; noi pensiamo sempre in termini di "funnel" e "lead generation". Ma all'inizio il funnel non esiste. Esiste solo la fiducia di qualcuno che ti ha visto lavorare.</p>
+
+            <p>&Egrave; controintuitivo: per vendere, prima devi regalare. Ma non regalare a caso &mdash; regalare a chi pu&ograve; raccontare agli altri quanto sei bravo.</p>
+
+            <div class="domanda">Il vostro primo cliente come &egrave; arrivato? Strategia o botta di fortuna?</div>
+        </div>
+
+        <!-- PILLOLA 3 -->
+        <div class="pillola">
+            <span class="pillola-tag">Esplorazione legale</span>
+            <h2>Work for equity: mi sono perso nel labirinto e vi racconto cosa ho trovato</h2>
+
+            <p>Questa &egrave; nata da una curiosit&agrave; mia: se non ho soldi per pagare un professionista, posso dargli quote della societ&agrave;? Sembra semplice. <span class="scoperta">Non lo &egrave; per niente.</span></p>
+
+            <p><strong>Quello che ho scoperto scavando:</strong></p>
+
+            <p>&bull; <strong>Fiscalmente</strong> &mdash; Il professionista che riceve quote potrebbe doverci pagare le tasse SUBITO, come se fosse un compenso in denaro. Anche se quelle quote oggi valgono zero sul mercato. Assurdo? Forse. Ma &egrave; cos&igrave; che funziona (art. 9 TUIR).</p>
+
+            <p>&bull; <strong>Legalmente</strong> &mdash; Serve un aumento di capitale. Che significa assemblea, delibera, e soprattutto: a che valore emetti le quote? Se la startup &egrave; una SRL appena nata, chi decide quanto vale?</p>
+
+            <p>&bull; <strong>Dal notaio</strong> &mdash; S&igrave;, ci devi andare. Atto pubblico, costi. Ho scoperto che alcune startup usano le SRL semplificate per ridurre i costi notarili, ma poi si trovano bloccate quando vogliono fare work for equity perch&eacute; lo statuto standard non lo prevede.</p>
+
+            <p>La cosa che mi ha stupito di pi&ugrave;: &egrave; uno strumento pensato per aiutare le startup, ma la burocrazia lo rende accessibile solo a chi ha gi&agrave; un avvocato (e i soldi per pagarlo). Paradossale.</p>
+
+            <div class="domanda">Qualcuno di voi ha fatto work for equity? Come avete gestito la parte fiscale senza impazzire?</div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-box">
+            <h3>Se ti riconosci in queste domande</h3>
+            <p>Ogni settimana esploro un pezzo del labirinto. Zero lezioni, solo curiosit&agrave; condivisa.</p>
+            <a href="#" class="cta-btn">Iscriviti gratis</a>
+        </div>
+
+        <footer>
+            <p>DOME180 &mdash; Un curioso tra founder, clausole e scoperte.<br>Non sono un esperto. Sono uno che cerca.</p>
+        </footer>
+    </div>
+</body>
+</html>

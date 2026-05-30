@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Startup Quest — Test</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#08080f;
+  --surface:#0f0f1a;
+  --card:#13132a;
+  --border:#1c1c38;
+  --accent:#7c3aed;
+  --accent2:#a78bfa;
+  --cyan:#06b6d4;
+  --text:#e2e8f0;
+  --muted:#7c8fa8;
+  --success:#10b981;
+  --warn:#f59e0b;
+  --danger:#ef4444;
+  --r:12px;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:20px 16px 60px;
+  line-height:1.6;
+}
+
+#app{width:100%;max-width:720px}
+
+/* ── INTRO ── */
+.intro{
+  min-height:95vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:20px;
+  padding:40px 0;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(124,58,237,.15);
+  border:1px solid rgba(124,58,237,.35);
+  border-radius:100px;
+  padding:6px 18px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  color:var(--accent2);
+}
+
+.intro-title{
+  font-size:clamp(52px,11vw,88px);
+  font-weight:900;
+  letter-spacing:-3px;
+  line-height:1;
+}
+
+.grad{
+  background:linear-gradient(135deg,#a78bfa 0%,#06b6d4 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.intro-sub{
+  font-size:17px;
+  color:var(--muted);
+  max-width:460px;
+  line-height:1.75;
+}
+
+.phases{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.phase-pill{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:7px 16px;
+  font-size:13px;
+  font-weight:500;
+}
+
+.dot{width:8px;height:8px;border-radius:50%}
+
+.btn-start{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,var(--accent),#9333ea);
+  color:#fff;
+  border:none;
+  border-radius:100px;
+  padding:14px 36px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  letter-spacing:.3px;
+  transition:all .2s;
+  margin-top:4px;
+}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.45)}
+
+.test-note{
+  font-size:12px;
+  color:var(--muted);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 18px;
+  margin-top:4px;
+}
+
+/* ── PROGRESS BAR ── */
+.prog-bar{height:3px;background:var(--border);border-radius:2px;margin:20px 0 28px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:2px;transition:width .5s ease}
+
+/* ── HEADER ── */
+.ch-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  gap:12px;
+}
+
+.phase-tag{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  color:var(--accent2);
+}
+
+.ch-counter{font-size:13px;color:var(--muted)}
+
+/* ── TIMER ── */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.timer-circle{position:relative;width:62px;height:62px}
+.timer-svg{width:62px;height:62px;transform:rotate(-90deg)}
+.t-bg{fill:none;stroke:var(--border);stroke-width:3}
+.t-prog{fill:none;stroke:var(--accent2);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .4s}
+.t-txt{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:12px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+.t-txt.red{color:var(--danger)}
+.timer-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* ── CARDS ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:26px;
+  margin-bottom:18px;
+}
+
+.level-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  padding:4px 12px;
+  border-radius:100px;
+  background:rgba(16,185,129,.12);
+  color:var(--success);
+  border:1px solid rgba(16,185,129,.25);
+  margin-bottom:16px;
+}
+
+.ch-title{font-size:22px;font-weight:800;margin-bottom:16px;line-height:1.25;letter-spacing:-.5px}
+
+.sec-label{
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+  color:var(--muted);
+  margin-bottom:8px;
+  margin-top:22px;
+}
+
+.scenario-box{
+  font-size:15px;
+  color:#c4d0e0;
+  line-height:1.8;
+  background:rgba(255,255,255,.025);
+  border-left:3px solid var(--accent);
+  padding:16px 18px;
+  border-radius:0 8px 8px 0;
+}
+
+.constraints-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.constraints-list li{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  font-size:14px;
+  color:var(--muted);
+}
+.constraints-list li::before{content:"⚠";font-size:12px;margin-top:2px;flex-shrink:0}
+
+.questions-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.questions-list li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:14px;
+  color:var(--text);
+  padding:10px 14px;
+  background:rgba(124,58,237,.07);
+  border:1px solid rgba(124,58,237,.15);
+  border-radius:8px;
+  line-height:1.55;
+}
+.questions-list li::before{content:"→";color:var(--accent2);font-weight:800;flex-shrink:0}
+
+/* ── CHOICES ── */
+.choices{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+
+.choice-btn{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:13px 15px;
+  cursor:pointer;
+  text-align:left;
+  color:var(--text);
+  font-size:14px;
+  line-height:1.55;
+  width:100%;
+  transition:all .18s;
+}
+.choice-btn:hover:not(:disabled){
+  border-color:var(--accent2);
+  background:rgba(124,58,237,.09);
+  transform:translateX(4px);
+}
+.choice-btn:disabled{cursor:default}
+
+.choice-btn.best{border-color:var(--success)!important;background:rgba(16,185,129,.08)!important}
+.choice-btn.picked{border-color:var(--accent2);background:rgba(124,58,237,.12)}
+.choice-btn.dimmed{opacity:.35}
+
+.ch-lbl{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  border-radius:7px;
+  background:var(--card);
+  font-weight:800;
+  font-size:13px;
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+/* ── HINT ── */
+.hint-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 16px;
+  color:var(--muted);
+  font-size:13px;
+  cursor:pointer;
+  transition:all .18s;
+  margin-bottom:10px;
+  width:100%;
+}
+.hint-btn:hover{border-color:var(--warn);color:var(--warn)}
+
+.hint-box{
+  display:none;
+  background:rgba(245,158,11,.08);
+  border:1px solid rgba(245,158,11,.3);
+  border-radius:8px;
+  padding:14px;
+  font-size:14px;
+  color:#fcd34d;
+  line-height:1.65;
+  margin-bottom:10px;
+}
+.hint-box.on{display:block}
+
+/* ── CLAUDE LINK ── */
+.claude-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(124,58,237,.08));
+  border:1px solid rgba(6,182,212,.25);
+  border-radius:10px;
+  padding:12px 20px;
+  color:var(--cyan);
+  font-size:14px;
+  font-weight:500;
+  text-decoration:none;
+  transition:all .2s;
+}
+.claude-link:hover{
+  background:linear-gradient(135deg,rgba(6,182,212,.16),rgba(124,58,237,.16));
+  box-shadow:0 4px 18px rgba(6,182,212,.18);
+  transform:translateY(-1px);
+}
+
+/* ── EXPIRED BANNER ── */
+.expired{
+  display:none;
+  background:rgba(239,68,68,.09);
+  border:1px solid rgba(239,68,68,.3);
+  border-radius:8px;
+  padding:11px 14px;
+  font-size:13px;
+  color:#fca5a5;
+  margin-bottom:16px;
+}
+.expired.on{display:block}
+
+/* ── FEEDBACK ── */
+.fb-score-val{font-size:52px;font-weight:900;text-align:center;line-height:1;margin:10px 0 4px}
+.fb-score-lbl{font-size:15px;font-weight:700;text-align:center}
+.fb-text{
+  font-size:15px;color:#c4d0e0;line-height:1.75;
+  background:rgba(255,255,255,.025);
+  border-radius:8px;
+  padding:14px 16px;
+  margin-top:14px;
+}
+.best-box{
+  background:rgba(16,185,129,.07);
+  border:1px solid rgba(16,185,129,.2);
+  border-radius:8px;
+  padding:14px;
+  margin-top:14px;
+  font-size:14px;
+  color:#6ee7b7;
+  line-height:1.65;
+}
+.divider{height:1px;background:var(--border);margin:22px 0}
+
+.btn-next{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,var(--accent),#9333ea);
+  color:#fff;border:none;
+  border-radius:100px;
+  padding:13px 30px;
+  font-size:15px;font-weight:700;
+  cursor:pointer;
+  transition:all .2s;
+  margin-top:16px;
+}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,.4)}
+
+/* ── RESULTS ── */
+.results{text-align:center;padding:40px 0}
+.final-score{
+  font-size:88px;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#a78bfa,#06b6d4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin:16px 0 4px;
+}
+.final-label{font-size:15px;color:var(--muted);margin-bottom:14px}
+.eval-badge{
+  display:inline-block;
+  padding:8px 22px;border-radius:100px;
+  font-weight:700;font-size:15px;
+  margin:10px 0 18px;
+}
+.eval-text{font-size:16px;color:var(--muted);max-width:440px;margin:0 auto 28px;line-height:1.75}
+
+.full-preview{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:18px;
+  font-size:13px;color:var(--muted);
+  text-align:left;margin-top:24px;
+}
+.full-preview strong{color:var(--text);display:block;margin-bottom:10px;font-size:14px}
+.phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+
+/* ── ANIM ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .35s ease forwards}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.pulsing{animation:pulse 1s ease infinite}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const CHALLENGES = [
+  {
+    id:1,
+    phase:"Pre-Round",
+    icon:"🌱",
+    title:"La Trappola dell'Idea",
+    timer:180,
+    scenario:"Hai un'idea per un'app B2B che aiuta i piccoli ristoranti a gestire prenotazioni e ridurre i no-show. Hai parlato con 3 ristoratori: 2 sembrano \"interessati\". Il tuo co-founder tecnico vuole iniziare a sviluppare subito per avere qualcosa da mostrare. Hai €12.000 di risparmi e circa 3 mesi di runway personale.",
+    constraints:[
+      "Budget totale: €12.000 (~3 mesi di runway)",
+      "Pressione del co-founder: vuole partire a sviluppare domani",
+      "Validazione attuale: 2 persone \"interessate\" su 3 intervistati"
+    ],
+    questions:[
+      "2 persone \"interessate\" sono sufficienti per validare un problema reale?",
+      "Cosa succederebbe se costruissimo per 6 mesi e scoprissimo che nessuno vuole pagare?",
+      "C'è un modo per validare la domanda PRIMA di scrivere una riga di codice?"
+    ],
+    hint:"💡 Il miglior segnale di validazione non è \"mi piace\" o \"sono interessato\", ma un impegno concreto: pagamento anticipato, lettera d'intento o accordo formale per essere il primo cliente beta. Se non firma niente, il problema non fa abbastanza male.",
+    choices:[
+      {id:"A",text:"Inizi subito a sviluppare l'MVP: meglio avere qualcosa di tangibile da mostrare agli investitori.",score:1,
+       feedback:"Rischioso. Sviluppare senza validazione sufficiente è la causa #1 di fallimento delle startup. 6 mesi di lavoro per scoprire che il mercato non vuole pagare è un errore costosissimo con €12k di runway."},
+      {id:"B",text:"Fai altre 17 interviste con il metodo Mom Test prima di scrivere una riga di codice.",score:3,
+       feedback:"Buona mossa. 20 interviste qualitative danno un quadro molto più solido. Assicurati di fare le domande giuste (comportamento passato, non intenzioni future) e di cercare attivamente di smontare la tua idea."},
+      {id:"C",text:"Analizzi mercato e competitor per 2 settimane per capire se c'è spazio.",score:2,
+       feedback:"Utile ma insufficiente da solo. L'analisi competitiva è necessaria, ma non ti dice se i tuoi clienti specifici pagheranno per la tua soluzione. Combinala con interviste qualitative dirette."},
+      {id:"D",text:"Cerchi un ristoratore disposto a firmare un impegno — anche informale — per essere il tuo primo cliente pagante PRIMA che tu costruisca.",score:4,
+       feedback:"Scelta ottimale. Il pre-selling è la validazione più forte che esista. Se nessuno vuole impegnarsi prima che tu costruisca, il problema non fa abbastanza male. \"Sell it before you build it\" non è solo un motto — è il tuo litmus test."}
+    ]
+  },
+  {
+    id:2,
+    phase:"Pre-Round",
+    icon:"🌱",
+    title:"Il Co-founder Dilemma",
+    timer:180,
+    scenario:"Cinque mesi dopo il lancio della tua MVP per ristoranti, hai 40 utenti attivi gratuiti ma zero revenue. Il tuo co-founder tecnico propone un pivot radicale: abbandonare i piccoli ristoranti e puntare su catene enterprise (50+ locali). Sostiene che il B2B enterprise è più facile da monetizzare. Tu hai investito tutto sul segmento PMI. Avete 2 mesi di runway rimasti.",
+    constraints:[
+      "Runway: ~2 mesi (~€8.000 rimasti)",
+      "40 utenti attivi gratuiti sul segmento attuale",
+      "Conflitto profondo con il co-founder sulla direzione",
+      "Nessun dato concreto a supporto della proposta di pivot"
+    ],
+    questions:[
+      "Un pivot strategico si decide in base a opinioni o a dati?",
+      "Con 2 mesi di runway, puoi permetterti 6 settimane di esperimento?",
+      "Come gestisci il conflitto con il co-founder senza compromettere il rapporto?"
+    ],
+    hint:"💡 Prima di decidere se pivotare, stabilisci criteri oggettivi: \"Se entro 3 settimane non otteniamo 3 call qualificate da catene enterprise, escludiamo questo segmento.\" Il pivot deve essere guidato da dati, non dalla frustrazione del momento.",
+    choices:[
+      {id:"A",text:"Accetti il pivot immediatamente: il co-founder è tecnico e sa cosa è sviluppabile. Meglio mantenere la pace.",score:1,
+       feedback:"Pericoloso. Cedere senza dati per mantenere la pace porta a pivot sbagliati. Crea anche un precedente negativo: se capitoli su decisioni strategiche oggi, il pattern si ripeterà nelle prossime crisi."},
+      {id:"B",text:"Rifiuti il pivot e continui sul segmento PMI: hai già 40 utenti attivi e hai investito 5 mesi su questo.",score:2,
+       feedback:"Rischioso per il motivo opposto. Con 2 mesi di runway e zero revenue, la \"sunk cost fallacy\" è un lusso che non puoi permetterti. Il fatto di aver investito 5 mesi non rende automaticamente giusta la direzione."},
+      {id:"C",text:"Proponi un esperimento rapido di 3 settimane: contattate 15 catene enterprise e misurate la risposta con criteri pre-definiti.",score:4,
+       feedback:"Scelta ottimale. L'esperimento rapido risolve il conflitto con dati reali invece di opinioni. Pre-definire i criteri di successo prima dell'esperimento elimina il bias di conferma nella valutazione. È anche il segnale giusto di leadership: non capitoli, non blocchi — testi."},
+      {id:"D",text:"Cerchi un mentor o advisor esterno che faccia da mediatore tra te e il co-founder.",score:3,
+       feedback:"Utile ma troppo lento. Un mentor può aiutarti a strutturare il framework decisionale, ma con 2 mesi di runway non hai tempo per mediazioni prolungate. Usalo per progettare l'esperimento del punto C, non come sostituto della decisione."}
+    ]
+  }
+];
+
+let S = {
+  screen:'intro',
+  idx:0,
+  scores:[],
+  picked:null,
+  timerVal:0,
+  timerMax:0,
+  timerID:null,
+  hintOn:false,
+  expired:false
+};
+
+const $ = id => document.getElementById(id);
+const app = () => document.getElementById('app');
+
+function render(){
+  const el = app();
+  el.innerHTML='';
+  el.className='anim';
+  if(S.screen==='intro') el.appendChild(mkIntro());
+  else if(S.screen==='challenge') el.appendChild(mkChallenge());
+  else if(S.screen==='feedback') el.appendChild(mkFeedback());
+  else el.appendChild(mkResults());
+}
+
+/* ── INTRO ── */
+function mkIntro(){
+  const d=document.createElement('div');
+  d.className='intro';
+  d.innerHTML=`
+    <div class="badge">🧪 Versione Test — 2 Scenari Warm-up</div>
+    <h1 class="intro-title"><span class="grad">Startup</span><br>Quest</h1>
+    <p class="intro-sub">Dal Idea all'Exit — allenati a prendere decisioni difficili sotto pressione, come un founder nella realtà.</p>
+    <div class="phases">
+      <div class="phase-pill"><div class="dot" style="background:#10b981"></div>🌱 Pre-Round</div>
+      <div class="phase-pill"><div class="dot" style="background:#7c3aed"></div>💰 Fundraising</div>
+      <div class="phase-pill"><div class="dot" style="background:#ef4444"></div>🔥 Crisi</div>
+      <div class="phase-pill"><div class="dot" style="background:#f59e0b"></div>🏁 Exit</div>
+    </div>
+    <button class="btn-start" onclick="startGame()">▶ &nbsp;Inizia il Test</button>
+    <div class="test-note">Test · 2 scenari warm-up &nbsp;·&nbsp; Versione completa: 12 sfide in 4 fasi · Timer 3 min per sfida</div>
+  `;
+  return d;
+}
+
+/* ── CHALLENGE ── */
+function mkChallenge(){
+  const ch=CHALLENGES[S.idx];
+  const pct=(S.idx/CHALLENGES.length)*100;
+  const d=document.createElement('div');
+  d.innerHTML=`
+    <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    <div class="ch-header">
+      <div class="phase-tag"><span>${ch.icon}</span><span>${ch.phase}</span></div>
+      <div class="ch-counter">Sfida ${S.idx+1} di ${CHALLENGES.length}</div>
+      <div class="timer-wrap">
+        <div class="timer-circle">
+          <svg class="timer-svg" viewBox="0 0 62 62">
+            <circle class="t-bg" cx="31" cy="31" r="27"/>
+            <circle class="t-prog" id="tCirc" cx="31" cy="31" r="27"
+              stroke-dasharray="169.6" stroke-dashoffset="0"/>
+          </svg>
+          <div class="t-txt" id="tTxt">${fmt(S.timerVal)}</div>
+        </div>
+        <div class="timer-lbl">tempo</div>
+      </div>
+    </div>
+
+    <div class="expired${S.expired?' on':''}" id="expBanner">
+      ⏰ Tempo scaduto — nella realtà avresti già perso l'opportunità. Rispondi comunque.
+    </div>
+
+    <div class="card">
+      <div class="level-badge">⚡ warm-up</div>
+      <h2 class="ch-title">${ch.title}</h2>
+      <div class="sec-label">Lo Scenario</div>
+      <div class="scenario-box">${ch.scenario}</div>
+      <div class="sec-label">I Vincoli</div>
+      <ul class="constraints-list">${ch.constraints.map(c=>`<li>${c}</li>`).join('')}</ul>
+      <div class="sec-label">Domande Guida</div>
+      <ul class="questions-list">${ch.questions.map(q=>`<li>${q}</li>`).join('')}</ul>
+    </div>
+
+    <div class="choices" id="choicesList">
+      ${ch.choices.map(c=>`
+        <button class="choice-btn" id="c${c.id}" onclick="pick('${c.id}')">
+          <span class="ch-lbl">${c.id}</span>
+          <span>${c.text}</span>
+        </button>
+      `).join('')}
+    </div>
+
+    <button class="hint-btn" id="hintBtn" style="${S.hintOn?'display:none':''}" onclick="showHint()">
+      💡 Rivela lo Spunto &nbsp;—&nbsp; usalo solo se sei bloccato
+    </button>
+    <div class="hint-box${S.hintOn?' on':''}" id="hintBox">${ch.hint}</div>
+
+    <a href="https://claude.ai" target="_blank" class="claude-link">
+      🤖 &nbsp;Approfondisci questa sfida con Claude →
+    </a>
+  `;
+  return d;
+}
+
+/* ── FEEDBACK ── */
+function mkFeedback(){
+  const ch=CHALLENGES[S.idx];
+  const chosen=ch.choices.find(c=>c.id===S.picked);
+  const best=ch.choices.reduce((a,b)=>b.score>a.score?b:a);
+  const isLast=S.idx>=CHALLENGES.length-1;
+  const pct=((S.idx+1)/CHALLENGES.length)*100;
+
+  const cols={1:'#ef4444',2:'#f59e0b',3:'#7c3aed',4:'#10b981'};
+  const lbls={1:'😬 Rischioso',2:'🤔 Può migliorare',3:'👍 Buona scelta',4:'🚀 Scelta ottimale'};
+
+  const d=document.createElement('div');
+  d.innerHTML=`
+    <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    <div class="card">
+      <div class="phase-tag" style="margin-bottom:4px"><span>${ch.icon}</span><span>${ch.phase} — ${ch.title}</span></div>
+      <div class="divider"></div>
+      <div style="text-align:center">
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px">Hai scelto: ${chosen.id}</div>
+        <div class="fb-score-val" style="color:${cols[chosen.score]}">${chosen.score}/4</div>
+        <div class="fb-score-lbl" style="color:${cols[chosen.score]}">${lbls[chosen.score]}</div>
+      </div>
+      <div class="fb-text">${chosen.feedback}</div>
+      ${chosen.id!==best.id?`
+        <div class="best-box">
+          <div style="font-weight:800;margin-bottom:6px">✅ La scelta ottimale era: ${best.id}</div>
+          ${best.feedback}
+        </div>
+      `:`<div class="best-box">✅ Hai identificato la risposta ottimale — ottimo ragionamento!</div>`}
+    </div>
+    <a href="https://claude.ai" target="_blank" class="claude-link">
+      🤖 &nbsp;Approfondisci questa sfida con Claude →
+    </a>
+    <div style="text-align:center">
+      <button class="btn-next" onclick="${isLast?'goResults()':'nextCh()'}">
+        ${isLast?'🏁 &nbsp;Vedi i risultati':'→ &nbsp;Prossima sfida'}
+      </button>
+    </div>
+  `;
+  return d;
+}
+
+/* ── RESULTS ── */
+function mkResults(){
+  const total=S.scores.reduce((a,b)=>a+b,0);
+  const max=CHALLENGES.length*4;
+  const pct=Math.round((total/max)*100);
+
+  let el,ec,et;
+  if(pct>=87){el='🦄 Unicorn Mindset';ec='#10b981';et='Decisioni quasi perfette. Pensi in modo sistematico, basi le scelte sui dati e gestisci le pressioni con maturità da founder esperto.'}
+  else if(pct>=62){el='🚀 Growth Mindset';ec='#7c3aed';et='Buon istinto strategico con qualche area di miglioramento. Hai la base giusta — allenati a strutturare il pensiero anche sotto pressione temporale.'}
+  else if(pct>=37){el='💡 First-time Founder';ec='#f59e0b';et='Stai ancora costruendo il framework decisionale. Tendi a seguire gli istinti più dei dati. Con mentori giusti e più ripetizioni migliorerai rapidamente.'}
+  else{el='🌱 Learning Mode';ec='#ef4444';et='Le tue decisioni riflettono bias comuni (sunk cost, pressione co-founder, urgenza). Riconoscerli è già il primo passo — è esattamente a questo che serve questo gioco.'}
+
+  const d=document.createElement('div');
+  d.className='results';
+  d.innerHTML=`
+    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Test completato</div>
+    <div class="final-score">${total}/${max}</div>
+    <div class="final-label">${pct}% di decisioni ottimali</div>
+    <div class="eval-badge" style="background:${ec}20;color:${ec};border:1px solid ${ec}40">${el}</div>
+    <p class="eval-text">${et}</p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+      <a href="https://claude.ai" target="_blank" class="claude-link" style="max-width:400px;width:100%">
+        🤖 &nbsp;Analizza i tuoi risultati con Claude →
+      </a>
+      <button class="btn-next" onclick="restart()">↺ &nbsp;Rigioca il test</button>
+    </div>
+    <div class="full-preview">
+      <strong>📚 Versione completa — 12 sfide in 4 fasi</strong>
+      <div class="phase-grid">
+        <div>🌱 Pre-Round (4 sfide)</div>
+        <div>💰 Fundraising (4 sfide)</div>
+        <div>🔥 Crisi (4 sfide)</div>
+        <div>🏁 Exit (4 sfide)</div>
+      </div>
+    </div>
+  `;
+  return d;
+}
+
+/* ── LOGIC ── */
+function startGame(){
+  S={...S,screen:'challenge',idx:0,scores:[],picked:null,hintOn:false,expired:false};
+  startTimer();
+  render();
+}
+
+function startTimer(){
+  clearInterval(S.timerID);
+  S.timerVal=CHALLENGES[S.idx].timer;
+  S.timerMax=CHALLENGES[S.idx].timer;
+  S.expired=false;
+  S.timerID=setInterval(()=>{
+    S.timerVal--;
+    tickTimer();
+    if(S.timerVal<=0){
+      clearInterval(S.timerID);
+      S.expired=true;
+      const b=$('expBanner');if(b)b.classList.add('on');
+      const t=$('tTxt');if(t){t.textContent='00:00';t.classList.add('red','pulsing')}
+    }
+  },1000);
+}
+
+function tickTimer(){
+  const circ=$('tCirc'),txt=$('tTxt');
+  if(!circ||!txt)return;
+  txt.textContent=fmt(S.timerVal);
+  const c=169.6;
+  circ.style.strokeDashoffset=c*(1-S.timerVal/S.timerMax);
+  if(S.timerVal<=30){circ.style.stroke='#ef4444';txt.classList.add('red')}
+  else if(S.timerVal<=60){circ.style.stroke='#f59e0b'}
+}
+
+function fmt(s){
+  return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+}
+
+function pick(id){
+  clearInterval(S.timerID);
+  S.picked=id;
+  const ch=CHALLENGES[S.idx];
+  const c=ch.choices.find(x=>x.id===id);
+  S.scores.push(c.score);
+
+  // Visual feedback before transition
+  document.querySelectorAll('.choice-btn').forEach(btn=>{
+    btn.disabled=true;
+    const bid=btn.id.replace('c','');
+    const bc=ch.choices.find(x=>x.id===bid);
+    const top=Math.max(...ch.choices.map(x=>x.score));
+    if(bc.score===top) btn.classList.add('best');
+    else if(bid===id) btn.classList.add('picked');
+    else btn.classList.add('dimmed');
+  });
+
+  setTimeout(()=>{S.screen='feedback';render();},1100);
+}
+
+function showHint(){
+  S.hintOn=true;
+  const hb=$('hintBox'),btn=$('hintBtn');
+  if(hb)hb.classList.add('on');
+  if(btn)btn.style.display='none';
+}
+
+function nextCh(){
+  S.idx++;
+  S.screen='challenge';
+  S.picked=null;
+  S.hintOn=false;
+  S.expired=false;
+  startTimer();
+  render();
+}
+
+function goResults(){
+  clearInterval(S.timerID);
+  S.screen='results';
+  render();
+}
+
+function restart(){
+  clearInterval(S.timerID);
+  S={screen:'intro',idx:0,scores:[],picked:null,timerVal:0,timerMax:0,timerID:null,hintOn:false,expired:false};
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

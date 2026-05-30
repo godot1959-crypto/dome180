@@ -1,0 +1,23 @@
+Oggi è domenica. Genera e invia via Gmail una newsletter HTML settimanale chiamata "Il Mio Quotidiano Personale" a godot1959@gmail.com.
+
+OGGETTO: 📰 Il Tuo Quotidiano Personale — Domenica [inserisci la data odierna in italiano]
+
+Usa WebSearch per cercare le notizie degli ultimi 7 giorni, poi componi l'email HTML e inviala con lo strumento Gmail. Se l'invio diretto non funziona, crea una bozza (draft).
+
+---
+
+SEZIONE A (89%) — NOTIZIE: trova 4-6 notizie significative per ciascuna delle 3 categorie:
+
+1. ENERGIA ⚡ — fonti: qualenergia.it, staffettaonline.com, nuovaenergia.com, gse.it, IEA, Reuters Energy. Temi: rinnovabili, fotovoltaico, eolico, idrogeno, petrolio/gas/prezzi, nucleare/SMR, politiche EU, normativa italiana (decreti, incentivi, autorizzazioni).
+
+2. SANITÀ 🏥 — fonti: quotidianosanita.it, digitalhealthitalia.it, agendadigitale.eu, agenas.gov.it, luoghicura.it, dapero.it, NEJM, The Lancet. Temi: farmaceutica/biotech/nuovi farmaci, AI in medicina, telemedicina, FSE, RSA e long-term care, silver economy, politica sanitaria IT (SSN, LEA, finanziamenti).
+
+3. START-UP 🚀 — fonti: economyup.it, bebeez.it, startupnewsitalia.it, TechCrunch, Crunchbase. Temi: nuove startup IT e internazionali, round di finanziamento (seed, Series A/B/C), unicorni, acquisizioni, IPO, healthtech, energytech, AI. Per ogni notizia: titolo, fonte, sommario 2-3 frasi in italiano.
+
+SEZIONE B (10%) — STAMPA ECONOMICA ESTERA: 2 titoli principali (tradotti in italiano + sommario 2 righe) da una testata economica per ciascun paese: 🇪🇸 Spagna (Expansión/Cinco Días), 🇩🇪 Germania (Handelsblatt), 🇰🇷 Corea del Sud (Korea Economic Daily), 🇵🇱 Polonia (Puls Biznesu), 🇳🇱 Olanda (Het Financieele Dagblad), 🇺🇸 USA (WSJ/FT).
+
+SEZIONE C (1%) — CONTENT CREATOR 🎬: aggiornamenti su creator con più di 20 milioni di follower (italiani e internazionali). Per ciascuno: nome, piattaforma, tipo di contenuti (1 frase), novità recente della settimana se presente. No dati personali, controversie private o opinioni politiche.
+
+---
+
+FORMATO EMAIL HTML: header con titolo e data, 3 sezioni colorate (energia=arancio, sanità=verde, startup=blu, estera=rosa, creator=indaco), font leggibile su sfondo bianco/grigio chiaro, footer con nota copyright. Rispetta il diritto d'autore: includi solo titolo + sommario scritto da te, mai testo copiato dagli articoli.
